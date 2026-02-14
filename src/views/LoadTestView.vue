@@ -520,7 +520,7 @@
                         v-model.number="config.requestInterval"
                         label="요청 간격 (ms)"
                         type="number"
-                        min="0"
+                        min="1"
                         variant="outlined"
                         density="comfortable"
                         hint="요청 사이의 대기 시간 (밀리초)"
@@ -871,7 +871,7 @@ export default defineComponent({
       body: '',
       concurrentRequests: 5,
       totalRequests: 100,
-      requestInterval: 0,
+      requestInterval: 1,
       authType: 'none',
       auth: {
         bearerToken: '',
