@@ -46,11 +46,11 @@
                 <span class="info-label">진행 상황:</span>
                 <span class="info-value">{{ stats.success + stats.failed }} / {{ config.totalRequests }}개</span>
               </div>
-              <div class="info-row">
+              <!-- <div class="info-row">
                 <v-icon color="primary" size="20">mdi-timer</v-icon>
                 <span class="info-label">경과 시간:</span>
                 <span class="info-value">{{ elapsedTime }}</span>
-              </div>
+              </div> -->
               <v-progress-linear
                 :model-value="parseFloat(progress)"
                 color="primary"
@@ -1923,7 +1923,7 @@ export default defineComponent({
       formatDate,
       formatDateTime,
       getStatusColor,
-      getStatusIcon
+      getStatusIcon,
     }
   }
 })
