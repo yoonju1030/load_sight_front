@@ -15,4 +15,9 @@ async function makeTest(params) {
     return value
 }
 
-export {requestGet, requestPost, makeTest}
+async function getTests() {
+    const value = await common.axiosCall("GET", "/api/tests");
+    return value;
+}
+
+export {requestGet, requestPost, makeTest, getTests}
