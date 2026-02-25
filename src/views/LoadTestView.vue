@@ -847,7 +847,7 @@
 
 <script>
 import { defineComponent, ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
-import { makeTest } from '../api/test'
+import { makeTest, getTests } from '../api/test'
 
 export default defineComponent({
   name: 'LoadTestView',
@@ -1865,6 +1865,14 @@ export default defineComponent({
       elapsedTimeInterval.value = setInterval(() => {
         // computed가 자동으로 업데이트됨
       }, 1000)
+
+      getTests()
+      .then((result) => {
+          console.log(result);
+      })
+      .catch((error) => {
+          console.error(error);
+      });
     })
     
     // 통계 카드가 표시될 때 캔버스 크기 설정
