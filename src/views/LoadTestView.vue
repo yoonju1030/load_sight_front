@@ -1868,7 +1868,8 @@ export default defineComponent({
 
       getTests()
       .then((result) => {
-          console.log(result);
+        testHistory.value = result.data
+          console.log(result.data);
       })
       .catch((error) => {
           console.error(error);
