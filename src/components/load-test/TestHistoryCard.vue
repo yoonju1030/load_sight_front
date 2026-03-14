@@ -22,25 +22,25 @@
       </div>
       <v-list v-else class="history-list">
         <v-list-item
-          v-for="(test, index) in testHistory.slice(0, 5)"
+          v-for="(test, index) in testHistory"
           :key="test.id"
           class="history-item"
           :class="{ active: index === 0 }"
         >
           <template v-slot:prepend>
-            <v-avatar :color="getStatusColor(test.statistics.successRate)" size="40">
-              <v-icon color="white">{{ getStatusIcon(test.statistics.successRate) }}</v-icon>
+            <v-avatar :color="getStatusColor(test.statistics?.successRate ?? 0)" size="40">
+              <v-icon color="white">{{ getStatusIcon(test.statistics?.successRate ?? 0) }}</v-icon>
             </v-avatar>
           </template>
           <v-list-item-title class="history-title">
-            {{ test.testName || test.testConfig?.testName || `${test.testConfig?.method} ${formatUrl(test.testConfig?.url)}` }}
+            {{ test.name }}
           </v-list-item-title>
           <v-list-item-subtitle class="history-subtitle">
             <div class="d-flex align-center mt-1">
-              <v-chip size="x-small" :color="getStatusColor(test.statistics.successRate)" variant="flat" class="mr-2">
-                {{ test.statistics.successRate.toFixed(1) }}% 성공
+              <v-chip size="x-small" :color="getStatusColor(test.statistics?.successRate ?? 0)" variant="flat" class="mr-2">
+                {{ (test.statistics?.successRate ?? 0).toFixed(1) }}% 성공
               </v-chip>
-              <span class="text-caption mr-2">p95: {{ test.statistics.p95Latency }}ms</span>
+              <span class="text-caption mr-2">p95: {{ test.statistics?.p95Latency ?? '-' }}ms</span>
               <span class="text-caption">{{ formatDate(test.timestamp) }}</span>
             </div>
           </v-list-item-subtitle>
@@ -101,7 +101,7 @@ export default defineComponent({
   text-align: center;
 }
 .history-list {
-  max-height: 400px;
+  max-height: 320px; /* 4개 항목 높이만 보이도록 */
   overflow-y: auto;
 }
 .history-item {

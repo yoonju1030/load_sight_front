@@ -32,54 +32,54 @@
               <h3 class="detail-title">테스트 설정</h3>
               <div class="detail-item">
                 <span class="detail-label">Method:</span>
-                <span class="detail-value">{{ selectedTest.testConfig?.method }}</span>
+                <span class="detail-value">{{ selectedTest.specJson.method }}</span>
               </div>
               <div class="detail-item">
                 <span class="detail-label">URL:</span>
-                <span class="detail-value">{{ selectedTest.testConfig?.url }}</span>
+                <span class="detail-value">{{ selectedTest.targetUrl}}</span>
               </div>
               <div class="detail-item">
                 <span class="detail-label">동시 요청:</span>
-                <span class="detail-value">{{ selectedTest.testConfig?.concurrentRequests }}개</span>
+                <span class="detail-value">{{ selectedTest.specJson.threads }}개</span>
               </div>
               <div class="detail-item">
                 <span class="detail-label">총 요청:</span>
-                <span class="detail-value">{{ selectedTest.testConfig?.totalRequests }}개</span>
+                <span class="detail-value">{{ selectedTest.specJson.totalRequest }}개</span>
               </div>
               <div class="detail-item">
                 <span class="detail-label">실행 시간:</span>
-                <span class="detail-value">{{ formatDateTime(selectedTest.timestamp) }}</span>
+                <span class="detail-value">{{ formatDateTime(selectedTest.createdAt) }}</span>
               </div>
             </div>
           </v-col>
           <v-col cols="12" md="6">
-            <div class="detail-section">
+            <div class="detail-section" v-if="selectedTest.statistics">
               <h3 class="detail-title">결과 요약</h3>
               <div class="detail-item">
                 <span class="detail-label">성공률:</span>
-                <v-chip :color="getStatusColor(selectedTest.statistics.successRate)" size="small" variant="flat">
-                  {{ selectedTest.statistics.successRate.toFixed(2) }}%
+                <v-chip :color="getStatusColor(selectedTest.statistics?.successRate ?? 0)" size="small" variant="flat">
+                  {{ (selectedTest.statistics?.successRate ?? 0).toFixed(2) }}%
                 </v-chip>
               </div>
               <div class="detail-item">
                 <span class="detail-label">에러율:</span>
-                <span class="detail-value">{{ selectedTest.statistics.errorRate.toFixed(2) }}%</span>
+                <span class="detail-value">{{ (selectedTest.statistics?.errorRate ?? 0).toFixed(2) }}%</span>
               </div>
               <div class="detail-item">
                 <span class="detail-label">평균 응답 시간:</span>
-                <span class="detail-value">{{ selectedTest.statistics.averageResponseTime }}ms</span>
+                <span class="detail-value">{{ selectedTest.statistics?.averageResponseTime ?? '-' }}ms</span>
               </div>
               <div class="detail-item">
                 <span class="detail-label">p50 Latency:</span>
-                <span class="detail-value">{{ selectedTest.statistics.p50Latency }}ms</span>
+                <span class="detail-value">{{ selectedTest.statistics?.p50Latency ?? '-' }}ms</span>
               </div>
               <div class="detail-item">
                 <span class="detail-label">p95 Latency:</span>
-                <span class="detail-value">{{ selectedTest.statistics.p95Latency }}ms</span>
+                <span class="detail-value">{{ selectedTest.statistics?.p95Latency ?? '-' }}ms</span>
               </div>
               <div class="detail-item">
                 <span class="detail-label">초당 요청 수:</span>
-                <span class="detail-value">{{ selectedTest.statistics.requestsPerSecond }}</span>
+                <span class="detail-value">{{ selectedTest.statistics?.requestsPerSecond ?? '-' }}</span>
               </div>
             </div>
           </v-col>

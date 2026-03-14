@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { defineComponent, inject } from 'vue'
+import { defineComponent, inject, ref } from 'vue'
 
 export default defineComponent({
   name: 'StatsCardsRow',
@@ -81,6 +81,20 @@ export default defineComponent({
   },
   setup() {
     const loadTest = inject('loadTest')
+    if (!loadTest) {
+      return {
+        isRunning: ref(false),
+        hasResults: ref(false),
+        stats: ref({ success: 0, failed: 0, minTime: 0, maxTime: 0 }),
+        successRate: ref('0'),
+        failureRate: ref('0'),
+        errorRate: ref(0),
+        averageResponseTime: ref(0),
+        p95Latency: ref(0),
+        requestsPerSecond: ref('0'),
+        progress: ref('0')
+      }
+    }
     return {
       isRunning: loadTest.isRunning,
       hasResults: loadTest.hasResults,
