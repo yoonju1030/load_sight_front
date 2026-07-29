@@ -1,23 +1,20 @@
-import common from "../utils/common";
+import { getTestPlans, createTestPlan } from './testPlanApi';
+import { getRunHistory } from './runApi';
 
-async function requestGet() {
-    const value = await common.axiosCall("GET", "/api/v1/endpoint");
-    return value
+export async function requestGet() {
+  return await getTestPlans();
 }
 
-async function requestPost(params) {
-    const value = await common.axiosCall("POST", "/api/v1/endpoint", params);
-    return value
+export async function requestPost(params) {
+  return await createTestPlan(params);
 }
 
-async function makeTest(params) {
-    const value = await common.axiosCall("POST", "/api/tests", params);
-    return value
+export async function makeTest(params) {
+  return await createTestPlan(params);
 }
 
-async function getTests() {
-    const value = await common.axiosCall("GET", "/api/tests");
-    return value;
+export async function getTests() {
+  return await getRunHistory();
 }
 
-export {requestGet, requestPost, makeTest, getTests}
+export { getTestPlans, createTestPlan, getRunHistory };
