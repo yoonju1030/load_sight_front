@@ -223,7 +223,7 @@ export default {
 .page-header h1 {
   margin: 0 0 1px;
   color: #1e293b;
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 800;
   line-height: 1.25;
   letter-spacing: -0.55px;
@@ -232,7 +232,7 @@ export default {
 .page-header p {
   margin: 0;
   color: #8a96a8;
-  font-size: 7px;
+  font-size: 9px;
   font-weight: 500;
 }
 
@@ -254,7 +254,7 @@ export default {
   width: 161px;
   height: 14px;
   color: #ffffff;
-  font-size: 7px;
+  font-size: 9px;
   background: #2f6bea;
   border: 0;
 }
@@ -288,7 +288,7 @@ export default {
   height: 27px;
   padding: 0 10px;
   color: #445065;
-  font-size: 7px;
+  font-size: 9px;
   background: #ffffff;
   border: 1px solid #d5dce6;
   border-radius: 5px;
@@ -313,7 +313,7 @@ export default {
 .search-button {
   height: 14px;
   color: #ffffff;
-  font-size: 6px;
+  font-size: 8px;
   background: #2f6bea;
   border: 0;
 }
@@ -342,7 +342,7 @@ th {
   height: 23px;
   padding: 5px 7px;
   color: #7c889a;
-  font-size: 6px;
+  font-size: 8px;
   font-weight: 700;
   text-align: left;
   background: #f5f8fc;
@@ -353,7 +353,7 @@ td {
   height: 41px;
   padding: 7px;
   color: #4f5b6e;
-  font-size: 6px;
+  font-size: 8px;
   font-weight: 500;
   vertical-align: middle;
   border-bottom: 1px solid #edf0f4;
@@ -430,7 +430,7 @@ td:last-child {
   min-width: 25px;
   min-height: 13px;
   padding: 2px 5px;
-  font-size: 5px;
+  font-size: 7px;
   font-weight: 800;
   border-radius: 999px;
   white-space: nowrap;
@@ -471,7 +471,7 @@ td:last-child {
   max-width: 100%;
   height: 14px;
   color: #465267;
-  font-size: 6px;
+  font-size: 8px;
   background: #ffffff;
   border: 1px solid #d1d9e4;
 }
@@ -493,18 +493,18 @@ td:last-child {
 
 .empty-state strong {
   color: #344054;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .empty-state span {
-  font-size: 7px;
+  font-size: 9px;
 }
 
 .empty-state button {
   margin-top: 4px;
   padding: 5px 12px;
   color: #2f6bea;
-  font-size: 7px;
+  font-size: 9px;
   font-weight: 700;
   background: #ffffff;
   border: 1px solid #b9c8e5;

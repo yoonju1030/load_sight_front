@@ -350,7 +350,7 @@ export default {
 .run-heading h1 {
   margin: 0 0 2px;
   color: #1e293b;
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 800;
   line-height: 1.2;
   letter-spacing: -0.55px;
@@ -361,7 +361,7 @@ export default {
   margin: 0;
   color: #7d899b;
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  font-size: 6px;
+  font-size: 8px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -378,7 +378,7 @@ export default {
   align-items: center;
   gap: 4px;
   color: #2563eb;
-  font-size: 6px;
+  font-size: 8px;
   font-weight: 800;
 }
 
@@ -406,7 +406,7 @@ export default {
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  font-size: 6px;
+  font-size: 8px;
   font-weight: 700;
   background: #e32626;
   border: 0;
@@ -441,7 +441,7 @@ export default {
 .progress-labels strong,
 .progress-labels time {
   color: #2f6bea;
-  font-size: 7px;
+  font-size: 9px;
   font-weight: 800;
   font-style: normal;
 }
@@ -482,13 +482,13 @@ export default {
 .metric-card span {
   margin-bottom: 1px;
   color: #8b96a7;
-  font-size: 7px;
+  font-size: 9px;
   font-weight: 500;
 }
 
 .metric-card strong {
   color: #202a3a;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 800;
   line-height: 1.15;
 }
@@ -520,7 +520,7 @@ export default {
 .errors-card h2 {
   margin: 0;
   color: #263244;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 800;
 }
 
@@ -541,7 +541,7 @@ export default {
   align-items: center;
   gap: 3px;
   color: #7f8b9d;
-  font-size: 5px;
+  font-size: 7px;
 }
 
 .legend-dot {
@@ -625,7 +625,7 @@ export default {
 .status-card dt,
 .status-card dd {
   margin: 0;
-  font-size: 6px;
+  font-size: 8px;
 }
 
 .status-card dt {
@@ -673,7 +673,7 @@ export default {
   height: 25px;
   padding: 5px 0;
   color: #566276;
-  font-size: 6px;
+  font-size: 8px;
   border-bottom: 1px solid #edf0f4;
 }
 
@@ -707,7 +707,7 @@ export default {
 .no-errors {
   margin: 18px 0;
   color: #8a96a8;
-  font-size: 7px;
+  font-size: 9px;
   text-align: center;
 }
 

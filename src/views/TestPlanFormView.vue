@@ -564,7 +564,7 @@ export default {
 .page-header h1 {
   margin: 0 0 1px;
   color: #1e293b;
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 800;
   line-height: 1.25;
   letter-spacing: -0.55px;
@@ -573,7 +573,7 @@ export default {
 .page-header p {
   margin: 0;
   color: #8a96a8;
-  font-size: 7px;
+  font-size: 9px;
   font-weight: 500;
 }
 
@@ -636,7 +636,7 @@ export default {
 
 .field > span {
   color: #68758a;
-  font-size: 6px;
+  font-size: 8px;
   font-weight: 700;
 }
 
@@ -646,7 +646,7 @@ export default {
   width: 100%;
   min-width: 0;
   color: #465267;
-  font-size: 7px;
+  font-size: 9px;
   background: #ffffff;
   border: 1px solid #d3dbe6;
   border-radius: 5px;
@@ -689,7 +689,7 @@ export default {
 .auth-hint {
   margin: 5px 0 0;
   color: #7a8799;
-  font-size: 5px;
+  font-size: 7px;
   font-weight: 500;
   line-height: 1.4;
 }
@@ -718,7 +718,7 @@ export default {
   top: 50%;
   right: 8px;
   color: #7c8798;
-  font-size: 6px;
+  font-size: 8px;
   pointer-events: none;
   transform: translateY(-50%);
 }
@@ -747,7 +747,7 @@ export default {
 .summary-card dt,
 .summary-card dd {
   margin: 0;
-  font-size: 6px;
+  font-size: 8px;
 }
 
 .summary-card dt {
@@ -777,7 +777,7 @@ export default {
 
 .criteria-card p {
   margin: 0;
-  font-size: 7px;
+  font-size: 9px;
   font-weight: 600;
   line-height: 1.35;
 }
@@ -797,7 +797,7 @@ export default {
   width: 100%;
   height: 15px;
   border-radius: 5px;
-  font-size: 6px;
+  font-size: 8px;
   font-weight: 700;
   cursor: pointer;
   transition: color 160ms ease, background-color 160ms ease,
@@ -835,7 +835,7 @@ export default {
 .feedback-message {
   margin: 0;
   padding: 7px 9px;
-  font-size: 7px;
+  font-size: 9px;
   font-weight: 600;
   border-radius: 6px;
 }

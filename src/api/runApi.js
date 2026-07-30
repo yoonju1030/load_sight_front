@@ -82,21 +82,24 @@ export async function getRunComparison(baseRunId, compareRunId) {
   } catch (err) {
     console.warn('getRunComparison mock fallback:', err);
     return {
-      verdict: '성능 개선됨',
-      summary: '비교 실행이 기준 실행 대비 전반적으로 개선되었습니다.',
+      verdict: '개선',
+      summary: 'p95는 72.4% 감소했고, 실제 RPS는 18.2% 증가했습니다.',
       diffs: {
-        successRateDiffP: 5.34,
-        p95LatencyDiffPercent: -38.8,
-        errorRateDiffPercent: -64.7
+        p95LatencyDiffPercent: -72.4,
+        errorRateDiffP: -2.2,
+        rpsDiffPercent: 18.2
       },
       metricsTable: [
-        { label: '요청 수', base: '600,000', compare: '726,000', diff: '+120,000', changeRate: '+20.0% ↑' },
-        { label: '성공률', base: '93.38%', compare: '98.72%', diff: '+5.34%p', changeRate: '+5.72% ↑' },
-        { label: 'p50 응답시간', base: '320 ms', compare: '198 ms', diff: '-122 ms', changeRate: '-38.1% ↓' },
-        { label: 'p95 응답시간', base: '672 ms', compare: '412 ms', diff: '-260 ms', changeRate: '-38.8% ↓' },
-        { label: 'p99 응답시간', base: '1,350 ms', compare: '780 ms', diff: '-570 ms', changeRate: '-42.2% ↓' },
-        { label: '에러율', base: '3.62%', compare: '1.28%', diff: '-2.34%p', changeRate: '-64.7% ↓' }
-      ]
+        { label: '평균 응답', base: '812ms', compare: '214ms', changeRate: '-73.6%', verdict: '개선' },
+        { label: 'p95', base: '1,420ms', compare: '392ms', changeRate: '-72.4%', verdict: '개선' },
+        { label: 'p99', base: '2,810ms', compare: '740ms', changeRate: '-73.7%', verdict: '개선' },
+        { label: '오류율', base: '2.4%', compare: '0.2%', changeRate: '-2.2%p', verdict: '개선' },
+        { label: '실제 RPS', base: '82', compare: '97', changeRate: '+18.2%', verdict: '개선' }
+      ],
+      responseTrend: {
+        base: [310, 360, 450, 570, 760, 980, 1240],
+        compare: [120, 145, 180, 225, 300, 410, 560]
+      }
     };
   }
 }
@@ -162,6 +165,53 @@ function getMockRunHistory() {
 }
 
 function getMockRunDetail(runId) {
+  if (runId && !['run-101', 'run-240724-01'].includes(runId)) {
+    return {
+      id: runId,
+      planId: 1,
+      name: '자산 목록 조회',
+      method: 'GET',
+      url: 'http://localhost:8085/asset/getTotalAsset',
+      status: 'FAIL',
+      statusText: '설정한 성능 기준을 충족하지 못했습니다.',
+      executionTime: '2026-08-06 15:20',
+      durationSec: 60,
+      targetThresholds: { successRate: 99, p95Latency: 1000 },
+      metrics: {
+        totalRequests: 5812,
+        averageLatency: 412,
+        p50Latency: 388,
+        p95Latency: 1284,
+        p99Latency: 1610,
+        errorCount: 35,
+        errorRate: 0.6,
+        rps: 76,
+        targetRps: 100,
+        http200: 5777,
+        http500: 12,
+        timeout: 21,
+        connectionError: 2
+      },
+      responseTrend: {
+        average: [120, 150, 190, 240, 310, 410, 540],
+        p95: [280, 340, 430, 560, 760, 980, 1284]
+      },
+      rpsTrend: {
+        actual: [18, 24, 34, 48, 66, 82, 100],
+        target: [4, 7, 12, 19, 27, 39, 55]
+      },
+      analysisMessages: [
+        '후반부에 p95가 증가했습니다. 자원 포화 가능성이 있습니다.',
+        '실제 RPS가 목표의 76%에 머물렀습니다.'
+      ],
+      errorAnalysis: [
+        { type: 'Timeout', count: 21 },
+        { type: 'HTTP 500', count: 12 },
+        { type: 'Connection Error', count: 2 }
+      ]
+    };
+  }
+
   return {
     id: runId || 'run-101',
     name: '자산 목록 조회',

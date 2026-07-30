@@ -103,7 +103,7 @@ a {
   display: inline-block;
   margin: 0 0 16px 1px;
   color: #f8fafc;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 800;
   line-height: 1.4;
   text-decoration: none;
@@ -122,7 +122,7 @@ a {
   min-height: 25px;
   padding: 6px 9px;
   color: #9aa5b5;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 500;
   line-height: 1.3;
   text-decoration: none;

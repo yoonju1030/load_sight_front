@@ -1,7 +1,7 @@
 import TempView from '../views/TempView.vue';
-import AnotherView from '../views/AnotherView.vue';
+import RunComparisonView from '../views/RunComparisonView.vue';
 import InputView from '../views/InputView.vue';
-import OutputView from '../views/OutputView.vue';
+import RunResultView from '../views/RunResultView.vue';
 import DashboardView from '../views/DashboardView.vue';
 import TestPlanListView from '../views/TestPlanListView.vue';
 import TestPlanFormView from '../views/TestPlanFormView.vue';
@@ -15,12 +15,12 @@ const routes = [
     {path: '/test-plans/:planId/edit', name: "EditTestPlan", component: TestPlanFormView},
     {path: '/runs', name: "Runs", component: RunHistoryView},
     {path: '/runs/:runId/live', name: "RunLive", component: RunLiveView},
-    {path: '/runs/:runId/result', name: "RunResult", component: OutputView},
-    {path: '/compare', name: "Compare", component: AnotherView},
+    {path: '/runs/:runId/result', name: "RunResult", component: RunResultView},
+    {path: '/compare', name: "Compare", component: RunComparisonView},
     {path: '/temp', name: "Temp", component: TempView},
-    {path: '/another', name: "Another", component: AnotherView},
+    {path: '/another', redirect: '/compare'},
     {path: '/input', name: "Input", component: InputView},
-    {path: '/output', name: "Output", component: OutputView},
+    {path: '/output', redirect: '/runs/run-240724-02/result'},
 ]
 
 export default routes;

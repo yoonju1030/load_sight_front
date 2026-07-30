@@ -178,7 +178,7 @@ export default {
 .page-header h1 {
   margin: 0 0 1px;
   color: #1e293b;
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 800;
   line-height: 1.25;
   letter-spacing: -0.55px;
@@ -187,7 +187,7 @@ export default {
 .page-header p {
   margin: 0;
   color: #8a96a8;
-  font-size: 7px;
+  font-size: 9px;
   font-weight: 500;
 }
 
@@ -211,7 +211,7 @@ export default {
   width: 161px;
   height: 14px;
   color: #ffffff;
-  font-size: 7px;
+  font-size: 9px;
   background: #2f6bea;
   border: 0;
 }
@@ -246,7 +246,7 @@ export default {
 .metric-label {
   margin-bottom: 1px;
   color: #8b96a7;
-  font-size: 7px;
+  font-size: 9px;
   font-weight: 500;
 }
 
@@ -296,7 +296,7 @@ export default {
 .running-badge {
   padding: 2px 6px;
   color: #2f6bea;
-  font-size: 6px;
+  font-size: 8px;
   font-weight: 800;
   background: #edf3ff;
   border-radius: 999px;
@@ -331,7 +331,7 @@ export default {
 .live-stat span {
   overflow: hidden;
   color: #8a96a8;
-  font-size: 6px;
+  font-size: 8px;
   font-weight: 500;
   line-height: 1.4;
   text-overflow: ellipsis;
@@ -342,7 +342,7 @@ export default {
 .stop-button {
   width: 100%;
   height: 14px;
-  font-size: 6px;
+  font-size: 8px;
 }
 
 .secondary-button {
@@ -393,7 +393,7 @@ export default {
   right: 10px;
   bottom: 5px;
   color: #a5afbd;
-  font-size: 5px;
+  font-size: 7px;
   font-style: normal;
 }
 
@@ -420,7 +420,7 @@ th {
   height: 22px;
   padding: 5px 7px;
   color: #8591a3;
-  font-size: 6px;
+  font-size: 8px;
   font-weight: 700;
   text-align: left;
   background: #f5f8fc;
@@ -431,7 +431,7 @@ td {
   height: 30px;
   padding: 6px 7px;
   color: #566276;
-  font-size: 6px;
+  font-size: 8px;
   font-weight: 500;
   border-bottom: 1px solid #edf0f4;
 }
@@ -486,7 +486,7 @@ td:last-child {
   min-width: 22px;
   min-height: 13px;
   padding: 2px 4px;
-  font-size: 5px;
+  font-size: 7px;
   font-weight: 800;
   border-radius: 999px;
 }
@@ -511,7 +511,7 @@ td:last-child {
   max-width: 100%;
   height: 14px;
   color: #465267;
-  font-size: 6px;
+  font-size: 8px;
   background: #ffffff;
   border: 1px solid #d1d9e4;
 }
