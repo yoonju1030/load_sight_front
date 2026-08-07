@@ -4,6 +4,20 @@ const axiosService = axios.create({
   baseURL: process.env.VUE_APP_API_URL,
 });
 
+let authToken = null;
+
+axiosService.interceptors.request.use((config) => {
+    if (authToken && authToken !== 'demo-session') {
+        config.headers.Authorization = `Bearer ${authToken}`;
+    }
+
+    return config;
+});
+
+const setAuthToken = (token) => {
+    authToken = token;
+};
+
 const axiosCall = async (method, url, params = {}, errorFunc = false) => {
     let axios = axiosService;
     let option = { withCredentials: true };
@@ -29,7 +43,8 @@ const axiosCall = async (method, url, params = {}, errorFunc = false) => {
 };
 
 const commonObj = {
-    axiosCall
+    axiosCall,
+    setAuthToken
 }
 
 export default commonObj;

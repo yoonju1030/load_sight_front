@@ -1,0 +1,313 @@
+export default {
+  language: {
+    selector: '언어 선택',
+    ko: '한국어',
+    en: '영어',
+    ja: '일본어'
+  },
+  app: {
+    mainMenu: '주요 메뉴',
+    user: '사용자',
+    logout: '로그아웃',
+    nav: {
+      dashboard: '대시보드',
+      testPlans: '테스트 플랜',
+      runs: '실행 이력',
+      compare: '결과 비교'
+    }
+  },
+  auth: {
+    tagline: 'PERFORMANCE TESTING PLATFORM',
+    title: '다시 만나서 반가워요',
+    description: '계정에 로그인하고 부하 테스트 현황을 확인하세요.',
+    registered: '회원가입이 완료되었습니다. 새 계정으로 로그인해 주세요.',
+    email: '이메일',
+    emailPlaceholder: "name{'@'}company.com",
+    password: '비밀번호',
+    passwordPlaceholder: '비밀번호를 입력하세요',
+    showPassword: '비밀번호 보기',
+    hidePassword: '비밀번호 숨기기',
+    submit: '로그인',
+    submitting: '로그인 중...',
+    noAccount: '아직 계정이 없으신가요?',
+    signup: '회원가입',
+    demoAccount: '데모 계정',
+    fillDemo: '계정 입력',
+    security: '안전하게 보호되는 LoadSight 전용 로그인입니다.',
+    validation: {
+      emailRequired: '이메일을 입력해 주세요.',
+      emailInvalid: '올바른 이메일 형식으로 입력해 주세요.',
+      passwordRequired: '비밀번호를 입력해 주세요.'
+    },
+    error: {
+      invalidCredentials: '이메일 또는 비밀번호가 올바르지 않습니다.',
+      unavailable: '로그인할 수 없습니다. 잠시 후 다시 시도해 주세요.'
+    }
+  },
+  signup: {
+    backToLogin: 'LoadSight 로그인으로 이동',
+    eyebrow: 'GET STARTED',
+    title: 'LoadSight 시작하기',
+    description: '성능 테스트를 관리할 계정을 만들어 보세요.',
+    name: '이름',
+    namePlaceholder: '이름을 입력하세요',
+    email: '이메일',
+    password: '비밀번호',
+    passwordPlaceholder: '영문, 숫자 포함 8자 이상',
+    passwordHint: '영문과 숫자를 포함해 8자 이상 입력해 주세요.',
+    passwordConfirm: '비밀번호 확인',
+    passwordConfirmPlaceholder: '비밀번호를 다시 입력하세요',
+    agreement: '서비스 이용약관 및 개인정보 처리방침에 동의합니다.',
+    agreementRequired: '서비스 이용을 위해 약관 동의가 필요합니다.',
+    submit: '계정 만들기',
+    submitting: '계정 생성 중...',
+    hasAccount: '이미 계정이 있으신가요?',
+    login: '로그인',
+    validation: {
+      name: '이름을 2자 이상 입력해 주세요.',
+      emailRequired: '이메일을 입력해 주세요.',
+      emailInvalid: '올바른 이메일 형식으로 입력해 주세요.',
+      passwordRequired: '비밀번호를 입력해 주세요.',
+      passwordInvalid: '영문과 숫자를 포함해 8자 이상 입력해 주세요.',
+      passwordConfirmRequired: '비밀번호를 한 번 더 입력해 주세요.',
+      passwordMismatch: '비밀번호가 일치하지 않습니다.'
+    },
+    error: {
+      duplicate: '이미 가입된 이메일입니다. 로그인해 주세요.',
+      unavailable: '계정을 만들 수 없습니다. 잠시 후 다시 시도해 주세요.'
+    }
+  },
+  dashboard: {
+    title: '대시보드',
+    description: 'API 부하 테스트 현황을 한눈에 확인합니다.',
+    newTest: '새 테스트',
+    summary: '테스트 요약',
+    runningTests: '실행 중인 테스트',
+    memberLookup: '회원 조회 API',
+    monitoring: '모니터링',
+    stop: '중지',
+    stopped: '중지됨',
+    progress: '테스트 진행률',
+    recentRuns: '최근 실행',
+    columns: {
+      testName: '테스트명',
+      status: '상태',
+      startedAt: '시작 시간',
+      errorRate: '오류율',
+      result: '결과 보기'
+    },
+    result: '결과',
+    status: {
+      completed: '완료',
+      failed: '실패',
+      cancelled: '취소'
+    },
+    date: {
+      today1420: '오늘 14:20',
+      today1342: '오늘 13:42',
+      yesterday1810: '어제 18:10'
+    },
+    test: {
+      memberLookup: '회원 조회',
+      assetList: '자산 목록',
+      loginApi: '로그인 API'
+    },
+    metrics: {
+      running: '실행 중',
+      last7Days: '최근 7일 실행',
+      avgSuccess: '평균 성공률',
+      needsAttention: '주의 필요'
+    }
+  },
+  testPlans: {
+    title: '테스트 플랜',
+    description: '반복 실행할 API 테스트 설정을 관리합니다.',
+    newTest: '새 테스트',
+    search: '테스트명 또는 URL 검색',
+    methodFilter: 'Method 필터',
+    allMethods: 'Method 전체',
+    submitSearch: '검색',
+    columns: {
+      name: '이름',
+      targetUrl: '대상 URL',
+      load: '부하 조건',
+      recentRun: '최근 실행',
+      updatedAt: '수정일',
+      actions: '작업'
+    },
+    loadSummary: '{rps} RPS · {duration}초 · 동시성 {concurrency}',
+    run: '실행',
+    edit: '수정',
+    empty: '검색 결과가 없습니다.',
+    emptyDescription: '검색어나 Method 조건을 변경해 주세요.',
+    reset: '필터 초기화',
+    noHistory: '이력 없음'
+  },
+  runs: {
+    title: '실행 이력',
+    description: '실행한 API 부하 테스트의 결과와 성능 지표를 확인합니다.',
+    startTest: '테스트 실행',
+    search: '테스트명 또는 실행 ID 검색',
+    statusFilter: '상태 필터',
+    periodFilter: '조회 기간',
+    allStatuses: '상태 전체',
+    allPeriods: '전체 기간',
+    last7Days: '최근 7일',
+    last30Days: '최근 30일',
+    submitSearch: '검색',
+    columns: {
+      runId: '실행 ID',
+      testName: '테스트명',
+      status: '상태',
+      startedAt: '시작 시간',
+      duration: '실행 시간',
+      requests: '요청 수',
+      successRate: '성공률',
+      actions: '작업'
+    },
+    status: {
+      pass: '성공',
+      warning: '주의',
+      fail: '실패',
+      cancelled: '취소',
+      running: '실행 중'
+    },
+    monitoring: '모니터링',
+    result: '결과',
+    unnamed: '이름 없는 테스트',
+    empty: '검색 결과가 없습니다.',
+    emptyDescription: '검색어, 상태 또는 조회 기간을 변경해 주세요.',
+    reset: '필터 초기화'
+  },
+  compare: {
+    title: '실행 결과 비교',
+    description: '두 실행의 성능 지표와 응답 분포를 비교합니다.',
+    selector: '비교 실행 선택',
+    baseRun: '기준 실행',
+    compareRun: '비교 실행',
+    loadingRuns: '실행 이력을 불러오는 중입니다.',
+    summary: '종합 결과: {result}',
+    calculating: '비교 결과를 계산하는 중입니다.',
+    columns: {
+      metric: '지표',
+      base: '기준',
+      compare: '비교',
+      change: '변화',
+      verdict: '판정'
+    },
+    chartTitle: '응답시간 비교 차트',
+    chartLegend: '차트 범례',
+    chartLabel: '기준 실행과 비교 실행의 응답시간 변화',
+    improved: '개선',
+    degraded: '저하',
+    same: '동일',
+    noChange: '변화 없음',
+    defaultSummary: 'p95는 72.4% 감소했고, 실제 RPS는 18.2% 증가했습니다.',
+    metrics: {
+      averageResponse: '평균 응답',
+      errorRate: '오류율',
+      actualRps: '실제 RPS'
+    },
+    empty: '비교할 수 있는 실행 결과가 부족합니다.',
+    emptyDescription: '동일한 테스트 플랜을 두 번 이상 실행한 후 다시 확인해 주세요.'
+  },
+  live: {
+    stopping: '중지 중',
+    stop: '중지',
+    stopped: '중지됨',
+    runningMessage: '테스트 실행 중',
+    stoppedMessage: '테스트가 중지되었습니다',
+    progress: '테스트 진행률',
+    currentRps: '현재 RPS',
+    totalRequests: '전체 요청',
+    successRate: '성공률',
+    responseTime: '응답시간',
+    chartLegend: '차트 범례',
+    average: '평균',
+    responseChart: '평균 및 p95 응답시간 추이',
+    throughput: '처리량 및 상태 코드',
+    recentErrors: '최근 오류',
+    noErrors: '최근 발생한 오류가 없습니다.'
+  },
+  result: {
+    title: '{name} · 실행 결과',
+    subtitle: '{time} · 실행 시간 {duration}',
+    rerun: '다시 실행',
+    compare: '결과 비교',
+    generating: '생성 중',
+    report: '리포트',
+    loading: '실행 결과를 불러오는 중입니다.',
+    totalRequests: '총 요청',
+    averageResponse: '평균 응답',
+    errorRate: '오류율',
+    responseTrend: '응답시간 추이',
+    responseChart: '평균 및 p95 응답시간 추이',
+    rpsTrend: 'RPS 추이',
+    rpsChart: '목표 및 실제 RPS 추이',
+    analysis: '분석 결과',
+    errorAnalysis: '오류 분석',
+    count: '{count}건',
+    noErrors: '발생한 오류가 없습니다.',
+    reportRequested: '리포트 생성 요청이 완료되었습니다.',
+    reportFailed: '리포트를 생성하지 못했습니다. 잠시 후 다시 시도해 주세요.',
+    verdict: {
+      below: '기준 미달',
+      errorExceeded: '오류율 초과',
+      passed: '기준 통과',
+      p95Message: '오류율은 통과했지만 p95가 설정 기준 {threshold}ms를 초과했습니다.',
+      errorMessage: '응답시간은 통과했지만 오류율이 허용 기준을 초과했습니다.',
+      passedMessage: '응답시간과 오류율이 설정한 통과 기준을 만족했습니다.'
+    },
+    seconds: '{value}초',
+    minutesSeconds: '{minutes}분 {seconds}초'
+  },
+  planForm: {
+    editTitle: '테스트 플랜 수정',
+    newTitle: '새 테스트 플랜',
+    description: '요청 조건, 부하 설정과 성능 기준을 입력합니다.',
+    defaultName: '자산 목록 조회',
+    defaultDescription: 'getTotalAsset API의 응답 및 부하 상태를 측정합니다.',
+    sections: {
+      basic: '1. 기본 정보',
+      request: '2. 요청 설정',
+      load: '3. 부하 설정',
+      threshold: '4. 통과 기준'
+    },
+    name: '테스트명',
+    details: '설명',
+    targetUrl: '대상 URL',
+    headers: '추가 Headers (json)',
+    noAuth: '인증 없음',
+    tokenPlaceholder: '토큰을 입력하세요',
+    bearerHint: '요청 시 Authorization: Bearer 형식으로 전송됩니다.',
+    usernamePlaceholder: '사용자 이름',
+    passwordPlaceholder: '비밀번호',
+    basicHint: 'Username과 Password를 Base64로 인코딩해 전송합니다.',
+    keyName: 'Key 이름',
+    location: '전달 위치',
+    keyValue: 'API Key 값',
+    keyPlaceholder: 'API Key를 입력하세요',
+    noAuthHint: '이 요청에는 인증 정보를 포함하지 않습니다.',
+    targetRps: '목표 RPS',
+    duration: '실행 시간',
+    seconds: '초',
+    concurrency: '동시성',
+    maxErrorRate: '최대 오류율',
+    maxP95: '최대 p95',
+    estimate: '실행 예상',
+    estimatedRequests: '예상 요청 수',
+    requestCount: '{count}건',
+    criteria: '통과 조건',
+    requestTest: '요청 테스트',
+    saving: '저장 중',
+    save: '저장',
+    run: '실행',
+    feedback: {
+      loadFailed: '테스트 플랜 정보를 불러오지 못했습니다.',
+      saveFailed: '저장 중 문제가 발생했습니다.',
+      requestSucceeded: '요청 테스트에 성공했습니다. HTTP 200 · 124ms',
+      runFailed: '테스트를 실행하지 못했습니다.'
+    }
+  },
+  footer: '© 2026 LoadSight. All rights reserved.'
+};

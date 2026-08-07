@@ -2,16 +2,19 @@
   <section class="run-result-page">
     <header class="result-header">
       <div class="result-heading">
-        <h1>{{ result.name }} · 실행 결과</h1>
-        <p>{{ result.executionTime }} · 실행 시간 {{ formattedDuration }}</p>
+        <h1>{{ $t('result.title', { name: result.name }) }}</h1>
+        <p>{{ $t('result.subtitle', {
+          time: result.executionTime,
+          duration: formattedDuration
+        }) }}</p>
       </div>
 
       <div class="header-actions">
         <button type="button" class="action-button" @click="rerunTest">
-          다시 실행
+          {{ $t('result.rerun') }}
         </button>
         <button type="button" class="action-button" @click="compareResult">
-          결과 비교
+          {{ $t('result.compare') }}
         </button>
         <button
           type="button"
@@ -19,13 +22,13 @@
           :disabled="isDownloading"
           @click="exportReport"
         >
-          {{ isDownloading ? '생성 중' : '리포트' }}
+          {{ isDownloading ? $t('result.generating') : $t('result.report') }}
         </button>
       </div>
     </header>
 
     <div v-if="isLoading" class="loading-panel" role="status">
-      실행 결과를 불러오는 중입니다.
+      {{ $t('result.loading') }}
     </div>
 
     <template v-else>
@@ -39,11 +42,11 @@
 
       <div class="metric-grid">
         <article class="metric-card">
-          <span>총 요청</span>
+          <span>{{ $t('result.totalRequests') }}</span>
           <strong>{{ formatNumber(result.metrics.totalRequests) }}</strong>
         </article>
         <article class="metric-card">
-          <span>평균 응답</span>
+          <span>{{ $t('result.averageResponse') }}</span>
           <strong>{{ formatMilliseconds(result.metrics.averageLatency) }}</strong>
         </article>
         <article class="metric-card">
@@ -53,20 +56,20 @@
           </strong>
         </article>
         <article class="metric-card">
-          <span>오류율</span>
+          <span>{{ $t('result.errorRate') }}</span>
           <strong class="metric-success">{{ formatPercent(result.metrics.errorRate) }}</strong>
         </article>
       </div>
 
       <div class="chart-grid">
         <article class="content-card chart-card">
-          <h2>응답시간 추이</h2>
+          <h2>{{ $t('result.responseTrend') }}</h2>
           <svg
             class="line-chart"
             viewBox="0 0 320 126"
             preserveAspectRatio="none"
             role="img"
-            aria-label="평균 및 p95 응답시간 추이"
+            :aria-label="$t('result.responseChart')"
           >
             <g class="chart-guides">
               <line v-for="y in chartGuideLines" :key="`response-${y}`" x1="0" :y1="y" x2="320" :y2="y" />
@@ -94,13 +97,13 @@
         </article>
 
         <article class="content-card chart-card">
-          <h2>RPS 추이</h2>
+          <h2>{{ $t('result.rpsTrend') }}</h2>
           <svg
             class="line-chart"
             viewBox="0 0 320 126"
             preserveAspectRatio="none"
             role="img"
-            aria-label="목표 및 실제 RPS 추이"
+            :aria-label="$t('result.rpsChart')"
           >
             <g class="chart-guides">
               <line v-for="y in chartGuideLines" :key="`rps-${y}`" x1="0" :y1="y" x2="320" :y2="y" />
@@ -130,7 +133,7 @@
 
       <div class="analysis-grid">
         <article class="content-card analysis-card">
-          <h2>분석 결과</h2>
+          <h2>{{ $t('result.analysis') }}</h2>
           <ul>
             <li
               v-for="(message, index) in result.analysisMessages"
@@ -144,18 +147,18 @@
         </article>
 
         <article class="content-card error-card">
-          <h2>오류 분석</h2>
+          <h2>{{ $t('result.errorAnalysis') }}</h2>
           <div v-if="result.errors.length" class="error-table-wrap">
             <table>
               <tbody>
                 <tr v-for="error in result.errors" :key="error.type">
                   <td>{{ error.type }}</td>
-                  <td>{{ formatNumber(error.count) }}건</td>
+                  <td>{{ $t('result.count', { count: formatNumber(error.count) }) }}</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <p v-else class="empty-errors">발생한 오류가 없습니다.</p>
+          <p v-else class="empty-errors">{{ $t('result.noErrors') }}</p>
         </article>
       </div>
 
@@ -233,25 +236,29 @@ export default {
       return this.verdictTone === 'success' ? '✓' : '⚠';
     },
     verdictLabel() {
-      if (this.isP95Exceeded) return '기준 미달';
-      if (this.result.metrics.errorRate > 1) return '오류율 초과';
-      return '기준 통과';
+      if (this.isP95Exceeded) return this.$t('result.verdict.below');
+      if (this.result.metrics.errorRate > 1) return this.$t('result.verdict.errorExceeded');
+      return this.$t('result.verdict.passed');
     },
     verdictMessage() {
       if (this.isP95Exceeded) {
-        return `오류율은 통과했지만 p95가 설정 기준 ${this.formatNumber(this.p95Threshold)}ms를 초과했습니다.`;
+        return this.$t('result.verdict.p95Message', {
+          threshold: this.formatNumber(this.p95Threshold)
+        });
       }
       if (this.result.metrics.errorRate > 1) {
-        return '응답시간은 통과했지만 오류율이 허용 기준을 초과했습니다.';
+        return this.$t('result.verdict.errorMessage');
       }
-      return '응답시간과 오류율이 설정한 통과 기준을 만족했습니다.';
+      return this.$t('result.verdict.passedMessage');
     },
     formattedDuration() {
       const seconds = Math.max(0, Number(this.result.durationSec) || 0);
-      if (seconds < 60) return `${seconds}초`;
+      if (seconds < 60) return this.$t('result.seconds', { value: seconds });
       const minutes = Math.floor(seconds / 60);
       const remainder = seconds % 60;
-      return remainder ? `${minutes}분 ${remainder}초` : `${minutes * 60}초`;
+      return remainder
+        ? this.$t('result.minutesSeconds', { minutes, seconds: remainder })
+        : this.$t('result.seconds', { value: minutes * 60 });
     },
     responseP95Points() {
       return this.toChartPoints(
@@ -456,9 +463,12 @@ export default {
           this.result.id || this.$route.params.runId,
           'pdf'
         );
-        this.reportMessage = report?.message || '리포트 생성 요청이 완료되었습니다.';
+        this.reportMessage =
+          this.$i18n.locale === 'ko' && report?.message
+            ? report.message
+            : this.$t('result.reportRequested');
       } catch {
-        this.reportMessage = '리포트를 생성하지 못했습니다. 잠시 후 다시 시도해 주세요.';
+        this.reportMessage = this.$t('result.reportFailed');
       } finally {
         this.isDownloading = false;
       }

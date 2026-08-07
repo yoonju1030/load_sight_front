@@ -2,17 +2,17 @@
   <section class="dashboard-page">
     <header class="page-header">
       <div>
-        <h1>대시보드</h1>
-        <p>API 부하 테스트 현황을 한눈에 확인합니다.</p>
+        <h1>{{ $t('dashboard.title') }}</h1>
+        <p>{{ $t('dashboard.description') }}</p>
       </div>
 
       <router-link to="/test-plans/new" class="primary-button">
         <span aria-hidden="true">+</span>
-        새 테스트
+        {{ $t('dashboard.newTest') }}
       </router-link>
     </header>
 
-    <div class="metric-grid" aria-label="테스트 요약">
+    <div class="metric-grid" :aria-label="$t('dashboard.summary')">
       <article v-for="metric in metrics" :key="metric.label" class="metric-card">
         <span class="metric-label">{{ metric.label }}</span>
         <strong :class="metric.tone ? `metric-value--${metric.tone}` : ''">
@@ -23,23 +23,23 @@
 
     <article class="panel running-panel">
       <div class="panel-title-row">
-        <h2>실행 중인 테스트</h2>
+        <h2>{{ $t('dashboard.runningTests') }}</h2>
         <span class="running-badge">{{ isRunning ? 'RUNNING' : 'STOPPED' }}</span>
       </div>
 
       <div class="running-content">
         <div class="test-summary">
-          <strong>회원 조회 API</strong>
+          <strong>{{ $t('dashboard.memberLookup') }}</strong>
           <span>GET https://api.example.com/users</span>
         </div>
 
         <div class="live-stat">
           <strong>{{ isRunning ? '98 RPS' : '0 RPS' }}</strong>
-          <span>p95 220ms · 오류율 0.4%</span>
+          <span>p95 220ms · {{ $t('dashboard.columns.errorRate') }} 0.4%</span>
         </div>
 
         <router-link to="/runs/run-101/live" class="secondary-button">
-          모니터링
+          {{ $t('dashboard.monitoring') }}
         </router-link>
 
         <button
@@ -48,7 +48,7 @@
           :disabled="!isRunning"
           @click="stopTest"
         >
-          {{ isRunning ? '중지' : '중지됨' }}
+          {{ isRunning ? $t('dashboard.stop') : $t('dashboard.stopped') }}
         </button>
       </div>
 
@@ -58,7 +58,7 @@
         :aria-valuenow="isRunning ? 57 : 100"
         aria-valuemin="0"
         aria-valuemax="100"
-        aria-label="테스트 진행률"
+        :aria-label="$t('dashboard.progress')"
       >
         <span :style="{ width: isRunning ? '57%' : '100%' }" />
       </div>
@@ -66,34 +66,34 @@
     </article>
 
     <article class="panel history-panel">
-      <h2>최근 실행</h2>
+      <h2>{{ $t('dashboard.recentRuns') }}</h2>
 
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>테스트명</th>
-              <th>상태</th>
-              <th>시작 시간</th>
+              <th>{{ $t('dashboard.columns.testName') }}</th>
+              <th>{{ $t('dashboard.columns.status') }}</th>
+              <th>{{ $t('dashboard.columns.startedAt') }}</th>
               <th>p95</th>
-              <th>오류율</th>
-              <th><span class="sr-only">결과 보기</span></th>
+              <th>{{ $t('dashboard.columns.errorRate') }}</th>
+              <th><span class="sr-only">{{ $t('dashboard.columns.result') }}</span></th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="run in recentRuns" :key="run.id">
-              <td class="test-name">{{ run.name }}</td>
+              <td class="test-name">{{ $t(run.nameKey) }}</td>
               <td>
                 <span class="status-chip" :class="`status-chip--${run.tone}`">
-                  {{ run.status }}
+                  {{ $t(run.statusKey) }}
                 </span>
               </td>
-              <td>{{ run.startedAt }}</td>
+              <td>{{ $t(run.startedAtKey) }}</td>
               <td>{{ run.p95 }}</td>
               <td>{{ run.errorRate }}</td>
               <td>
                 <router-link :to="`/runs/${run.id}/result`" class="result-button">
-                  결과
+                  {{ $t('dashboard.result') }}
                 </router-link>
               </td>
             </tr>
@@ -113,28 +113,28 @@ export default {
       recentRuns: [
         {
           id: 'run-103',
-          name: '회원 조회',
-          status: '완료',
+          nameKey: 'dashboard.test.memberLookup',
+          statusKey: 'dashboard.status.completed',
           tone: 'success',
-          startedAt: '오늘 14:20',
+          startedAtKey: 'dashboard.date.today1420',
           p95: '280ms',
           errorRate: '0.1%'
         },
         {
           id: 'run-102',
-          name: '재산 목록',
-          status: '실패',
+          nameKey: 'dashboard.test.assetList',
+          statusKey: 'dashboard.status.failed',
           tone: 'danger',
-          startedAt: '오늘 13:42',
+          startedAtKey: 'dashboard.date.today1342',
           p95: '4.2s',
           errorRate: '12.0%'
         },
         {
           id: 'run-101',
-          name: '로그인 API',
-          status: '취소',
+          nameKey: 'dashboard.test.loginApi',
+          statusKey: 'dashboard.status.cancelled',
           tone: 'neutral',
-          startedAt: '어제 18:10',
+          startedAtKey: 'dashboard.date.yesterday1810',
           p95: '490ms',
           errorRate: '0.6%'
         }
@@ -144,10 +144,10 @@ export default {
   computed: {
     metrics() {
       return [
-        { label: '실행 중', value: this.isRunning ? '1' : '0' },
-        { label: '최근 7일 실행', value: '12' },
-        { label: '평균 성공률', value: '98.7%', tone: 'success' },
-        { label: '주의 필요', value: '2', tone: 'danger' }
+        { label: this.$t('dashboard.metrics.running'), value: this.isRunning ? '1' : '0' },
+        { label: this.$t('dashboard.metrics.last7Days'), value: '12' },
+        { label: this.$t('dashboard.metrics.avgSuccess'), value: '98.7%', tone: 'success' },
+        { label: this.$t('dashboard.metrics.needsAttention'), value: '2', tone: 'danger' }
       ];
     }
   },

@@ -1,0 +1,313 @@
+export default {
+  language: {
+    selector: '言語を選択',
+    ko: '韓国語',
+    en: '英語',
+    ja: '日本語'
+  },
+  app: {
+    mainMenu: 'メインメニュー',
+    user: 'ユーザー',
+    logout: 'ログアウト',
+    nav: {
+      dashboard: 'ダッシュボード',
+      testPlans: 'テストプラン',
+      runs: '実行履歴',
+      compare: '結果比較'
+    }
+  },
+  auth: {
+    tagline: 'PERFORMANCE TESTING PLATFORM',
+    title: 'おかえりなさい',
+    description: 'ログインして負荷テストの状況を確認してください。',
+    registered: 'アカウントを作成しました。新しいアカウントでログインしてください。',
+    email: 'メールアドレス',
+    emailPlaceholder: "name{'@'}company.com",
+    password: 'パスワード',
+    passwordPlaceholder: 'パスワードを入力',
+    showPassword: 'パスワードを表示',
+    hidePassword: 'パスワードを非表示',
+    submit: 'ログイン',
+    submitting: 'ログイン中...',
+    noAccount: 'アカウントをお持ちでないですか？',
+    signup: '新規登録',
+    demoAccount: 'デモアカウント',
+    fillDemo: '入力する',
+    security: 'LoadSight専用ログインは安全に保護されています。',
+    validation: {
+      emailRequired: 'メールアドレスを入力してください。',
+      emailInvalid: '正しいメールアドレスを入力してください。',
+      passwordRequired: 'パスワードを入力してください。'
+    },
+    error: {
+      invalidCredentials: 'メールアドレスまたはパスワードが正しくありません。',
+      unavailable: 'ログインできません。しばらくしてからもう一度お試しください。'
+    }
+  },
+  signup: {
+    backToLogin: 'LoadSightログインへ移動',
+    eyebrow: 'GET STARTED',
+    title: 'LoadSightを始める',
+    description: 'パフォーマンステストを管理するアカウントを作成します。',
+    name: '名前',
+    namePlaceholder: '名前を入力',
+    email: 'メールアドレス',
+    password: 'パスワード',
+    passwordPlaceholder: '英字と数字を含む8文字以上',
+    passwordHint: '英字と数字を含む8文字以上で入力してください。',
+    passwordConfirm: 'パスワード確認',
+    passwordConfirmPlaceholder: 'パスワードを再入力',
+    agreement: '利用規約およびプライバシーポリシーに同意します。',
+    agreementRequired: '続行するには同意が必要です。',
+    submit: 'アカウントを作成',
+    submitting: 'アカウント作成中...',
+    hasAccount: 'すでにアカウントをお持ちですか？',
+    login: 'ログイン',
+    validation: {
+      name: '名前を2文字以上入力してください。',
+      emailRequired: 'メールアドレスを入力してください。',
+      emailInvalid: '正しいメールアドレスを入力してください。',
+      passwordRequired: 'パスワードを入力してください。',
+      passwordInvalid: '英字と数字を含む8文字以上で入力してください。',
+      passwordConfirmRequired: 'パスワードをもう一度入力してください。',
+      passwordMismatch: 'パスワードが一致しません。'
+    },
+    error: {
+      duplicate: 'このメールアドレスは登録済みです。ログインしてください。',
+      unavailable: 'アカウントを作成できません。しばらくしてからもう一度お試しください。'
+    }
+  },
+  dashboard: {
+    title: 'ダッシュボード',
+    description: 'API負荷テストの状況をひと目で確認できます。',
+    newTest: '新規テスト',
+    summary: 'テスト概要',
+    runningTests: '実行中のテスト',
+    memberLookup: '会員照会API',
+    monitoring: 'モニタリング',
+    stop: '停止',
+    stopped: '停止済み',
+    progress: 'テスト進捗',
+    recentRuns: '最近の実行',
+    columns: {
+      testName: 'テスト名',
+      status: 'ステータス',
+      startedAt: '開始時間',
+      errorRate: 'エラー率',
+      result: '結果を表示'
+    },
+    result: '結果',
+    status: {
+      completed: '完了',
+      failed: '失敗',
+      cancelled: 'キャンセル'
+    },
+    date: {
+      today1420: '今日 14:20',
+      today1342: '今日 13:42',
+      yesterday1810: '昨日 18:10'
+    },
+    test: {
+      memberLookup: '会員照会',
+      assetList: '資産一覧',
+      loginApi: 'ログインAPI'
+    },
+    metrics: {
+      running: '実行中',
+      last7Days: '直近7日間の実行',
+      avgSuccess: '平均成功率',
+      needsAttention: '要確認'
+    }
+  },
+  testPlans: {
+    title: 'テストプラン',
+    description: '繰り返し実行するAPIテスト設定を管理します。',
+    newTest: '新規テスト',
+    search: 'テスト名またはURLで検索',
+    methodFilter: 'Methodフィルター',
+    allMethods: 'すべてのMethod',
+    submitSearch: '検索',
+    columns: {
+      name: '名前',
+      targetUrl: '対象URL',
+      load: '負荷条件',
+      recentRun: '最近の実行',
+      updatedAt: '更新日',
+      actions: '操作'
+    },
+    loadSummary: '{rps} RPS · {duration}秒 · 同時実行 {concurrency}',
+    run: '実行',
+    edit: '編集',
+    empty: '検索結果がありません。',
+    emptyDescription: '検索語またはMethod条件を変更してください。',
+    reset: 'フィルターをリセット',
+    noHistory: '履歴なし'
+  },
+  runs: {
+    title: '実行履歴',
+    description: 'API負荷テストの結果とパフォーマンス指標を確認します。',
+    startTest: 'テスト実行',
+    search: 'テスト名または実行IDで検索',
+    statusFilter: 'ステータスフィルター',
+    periodFilter: '期間',
+    allStatuses: 'すべてのステータス',
+    allPeriods: '全期間',
+    last7Days: '直近7日間',
+    last30Days: '直近30日間',
+    submitSearch: '検索',
+    columns: {
+      runId: '実行ID',
+      testName: 'テスト名',
+      status: 'ステータス',
+      startedAt: '開始時間',
+      duration: '実行時間',
+      requests: 'リクエスト数',
+      successRate: '成功率',
+      actions: '操作'
+    },
+    status: {
+      pass: '成功',
+      warning: '注意',
+      fail: '失敗',
+      cancelled: 'キャンセル',
+      running: '実行中'
+    },
+    monitoring: 'モニタリング',
+    result: '結果',
+    unnamed: '名前のないテスト',
+    empty: '検索結果がありません。',
+    emptyDescription: '検索語、ステータス、または期間を変更してください。',
+    reset: 'フィルターをリセット'
+  },
+  compare: {
+    title: '実行結果比較',
+    description: '2つの実行のパフォーマンス指標と応答分布を比較します。',
+    selector: '比較する実行を選択',
+    baseRun: '基準実行',
+    compareRun: '比較実行',
+    loadingRuns: '実行履歴を読み込んでいます...',
+    summary: '総合結果：{result}',
+    calculating: '比較結果を計算しています...',
+    columns: {
+      metric: '指標',
+      base: '基準',
+      compare: '比較',
+      change: '変化',
+      verdict: '判定'
+    },
+    chartTitle: '応答時間比較チャート',
+    chartLegend: 'チャート凡例',
+    chartLabel: '基準実行と比較実行の応答時間変化',
+    improved: '改善',
+    degraded: '低下',
+    same: '同じ',
+    noChange: '変化なし',
+    defaultSummary: 'p95は72.4%減少し、実際のRPSは18.2%増加しました。',
+    metrics: {
+      averageResponse: '平均応答',
+      errorRate: 'エラー率',
+      actualRps: '実際のRPS'
+    },
+    empty: '比較できる実行結果が不足しています。',
+    emptyDescription: '同じテストプランを2回以上実行してから再度確認してください。'
+  },
+  live: {
+    stopping: '停止中',
+    stop: '停止',
+    stopped: '停止済み',
+    runningMessage: 'テスト実行中',
+    stoppedMessage: 'テストが停止しました',
+    progress: 'テスト進捗',
+    currentRps: '現在のRPS',
+    totalRequests: '総リクエスト',
+    successRate: '成功率',
+    responseTime: '応答時間',
+    chartLegend: 'チャート凡例',
+    average: '平均',
+    responseChart: '平均およびp95応答時間の推移',
+    throughput: 'スループットとステータスコード',
+    recentErrors: '最近のエラー',
+    noErrors: '最近発生したエラーはありません。'
+  },
+  result: {
+    title: '{name} · 実行結果',
+    subtitle: '{time} · 実行時間 {duration}',
+    rerun: '再実行',
+    compare: '結果比較',
+    generating: '生成中',
+    report: 'レポート',
+    loading: '実行結果を読み込んでいます...',
+    totalRequests: '総リクエスト',
+    averageResponse: '平均応答',
+    errorRate: 'エラー率',
+    responseTrend: '応答時間の推移',
+    responseChart: '平均およびp95応答時間の推移',
+    rpsTrend: 'RPSの推移',
+    rpsChart: '目標および実際のRPS推移',
+    analysis: '分析結果',
+    errorAnalysis: 'エラー分析',
+    count: '{count}件',
+    noErrors: 'エラーは発生していません。',
+    reportRequested: 'レポート生成リクエストが完了しました。',
+    reportFailed: 'レポートを生成できません。しばらくしてからもう一度お試しください。',
+    verdict: {
+      below: '基準未達',
+      errorExceeded: 'エラー率超過',
+      passed: '基準合格',
+      p95Message: 'エラー率は合格しましたが、p95が設定基準の{threshold}msを超えました。',
+      errorMessage: '応答時間は合格しましたが、エラー率が許容基準を超えました。',
+      passedMessage: '応答時間とエラー率が設定した合格基準を満たしています。'
+    },
+    seconds: '{value}秒',
+    minutesSeconds: '{minutes}分 {seconds}秒'
+  },
+  planForm: {
+    editTitle: 'テストプラン編集',
+    newTitle: '新規テストプラン',
+    description: 'リクエスト条件、負荷設定、パフォーマンス基準を入力します。',
+    defaultName: '資産一覧照会',
+    defaultDescription: 'getTotalAsset APIの応答と負荷状況を測定します。',
+    sections: {
+      basic: '1. 基本情報',
+      request: '2. リクエスト設定',
+      load: '3. 負荷設定',
+      threshold: '4. 合格基準'
+    },
+    name: 'テスト名',
+    details: '説明',
+    targetUrl: '対象URL',
+    headers: '追加Headers (JSON)',
+    noAuth: '認証なし',
+    tokenPlaceholder: 'トークンを入力',
+    bearerHint: 'Authorization: Bearer形式で送信されます。',
+    usernamePlaceholder: 'ユーザー名',
+    passwordPlaceholder: 'パスワード',
+    basicHint: 'UsernameとPasswordをBase64エンコードして送信します。',
+    keyName: 'Key名',
+    location: '送信場所',
+    keyValue: 'API Key値',
+    keyPlaceholder: 'API Keyを入力',
+    noAuthHint: 'このリクエストには認証情報を含みません。',
+    targetRps: '目標RPS',
+    duration: '実行時間',
+    seconds: '秒',
+    concurrency: '同時実行数',
+    maxErrorRate: '最大エラー率',
+    maxP95: '最大p95',
+    estimate: '実行予測',
+    estimatedRequests: '予想リクエスト数',
+    requestCount: '{count}件',
+    criteria: '合格条件',
+    requestTest: 'リクエストテスト',
+    saving: '保存中',
+    save: '保存',
+    run: '実行',
+    feedback: {
+      loadFailed: 'テストプランを読み込めませんでした。',
+      saveFailed: '保存中に問題が発生しました。',
+      requestSucceeded: 'リクエストテストに成功しました。HTTP 200 · 124ms',
+      runFailed: 'テストを実行できませんでした。'
+    }
+  },
+  footer: '© 2026 LoadSight. All rights reserved.'
+};

@@ -1,38 +1,40 @@
 <template>
   <section class="test-plan-form-page">
     <header class="page-header">
-      <h1>{{ isEdit ? '테스트 플랜 수정' : '새 테스트 플랜' }}</h1>
-      <p>요청 조건, 부하 설정과 성능 기준을 입력합니다.</p>
+      <h1>{{ isEdit ? $t('planForm.editTitle') : $t('planForm.newTitle') }}</h1>
+      <p>{{ $t('planForm.description') }}</p>
     </header>
 
     <form class="form-layout" @submit.prevent="handleSave">
       <div class="config-column">
         <section class="config-card">
-          <h2>1. 기본 정보</h2>
+          <h2>{{ $t('planForm.sections.basic') }}</h2>
 
           <label class="field">
-            <span>테스트명</span>
+            <span>{{ $t('planForm.name') }}</span>
             <input
               v-model.trim="form.name"
               type="text"
               minlength="2"
               maxlength="100"
               required
+              @input="defaultTextActive.name = false"
             >
           </label>
 
           <label class="field">
-            <span>설명</span>
+            <span>{{ $t('planForm.details') }}</span>
             <textarea
               v-model.trim="form.description"
               rows="3"
               maxlength="500"
+              @input="defaultTextActive.description = false"
             ></textarea>
           </label>
         </section>
 
         <section class="config-card">
-          <h2>2. 요청 설정</h2>
+          <h2>{{ $t('planForm.sections.request') }}</h2>
 
           <div class="field-row">
             <label class="field">
@@ -63,7 +65,7 @@
           </div>
 
           <label class="field">
-            <span>대상 URL</span>
+            <span>{{ $t('planForm.targetUrl') }}</span>
             <textarea
               v-model.trim="form.url"
               class="code-field url-field"
@@ -73,7 +75,7 @@
           </label>
 
           <label class="field">
-            <span>추가 Headers (json)</span>
+            <span>{{ $t('planForm.headers') }}</span>
             <textarea
               v-model="form.headers"
               class="code-field"
@@ -95,7 +97,7 @@
           <label class="field">
             <span>Authentication</span>
             <select v-model="form.authentication">
-              <option value="NONE">인증 없음</option>
+              <option value="NONE">{{ $t('planForm.noAuth') }}</option>
               <option value="BEARER">Bearer Token</option>
               <option value="BASIC">Basic Auth</option>
               <option value="API_KEY">API Key</option>
@@ -108,13 +110,13 @@
               <input
                 v-model.trim="form.authConfig.bearerToken"
                 type="password"
-                placeholder="토큰을 입력하세요"
+                :placeholder="$t('planForm.tokenPlaceholder')"
                 autocomplete="new-password"
                 required
               >
             </label>
             <p class="auth-hint">
-              요청 시 Authorization: Bearer 형식으로 전송됩니다.
+              {{ $t('planForm.bearerHint') }}
             </p>
           </div>
 
@@ -125,7 +127,7 @@
                 <input
                   v-model.trim="form.authConfig.username"
                   type="text"
-                  placeholder="사용자 이름"
+                  :placeholder="$t('planForm.usernamePlaceholder')"
                   autocomplete="username"
                   required
                 >
@@ -136,21 +138,21 @@
                 <input
                   v-model="form.authConfig.password"
                   type="password"
-                  placeholder="비밀번호"
+                  :placeholder="$t('planForm.passwordPlaceholder')"
                   autocomplete="new-password"
                   required
                 >
               </label>
             </div>
             <p class="auth-hint">
-              Username과 Password를 Base64로 인코딩해 전송합니다.
+              {{ $t('planForm.basicHint') }}
             </p>
           </div>
 
           <div v-else-if="form.authentication === 'API_KEY'" class="authentication-fields">
             <div class="field-row">
               <label class="field">
-                <span>Key 이름</span>
+                <span>{{ $t('planForm.keyName') }}</span>
                 <input
                   v-model.trim="form.authConfig.apiKeyName"
                   type="text"
@@ -160,7 +162,7 @@
               </label>
 
               <label class="field">
-                <span>전달 위치</span>
+                <span>{{ $t('planForm.location') }}</span>
                 <select v-model="form.authConfig.apiKeyLocation">
                   <option value="HEADER">Header</option>
                   <option value="QUERY">Query Parameter</option>
@@ -169,11 +171,11 @@
             </div>
 
             <label class="field">
-              <span>API Key 값</span>
+              <span>{{ $t('planForm.keyValue') }}</span>
               <input
                 v-model="form.authConfig.apiKeyValue"
                 type="password"
-                placeholder="API Key를 입력하세요"
+                :placeholder="$t('planForm.keyPlaceholder')"
                 autocomplete="new-password"
                 required
               >
@@ -181,16 +183,16 @@
           </div>
 
           <p v-else class="auth-hint auth-hint--none">
-            이 요청에는 인증 정보를 포함하지 않습니다.
+            {{ $t('planForm.noAuthHint') }}
           </p>
         </section>
 
         <section class="config-card">
-          <h2>3. 부하 설정</h2>
+          <h2>{{ $t('planForm.sections.load') }}</h2>
 
           <div class="field-row">
             <label class="field">
-              <span>목표 RPS</span>
+              <span>{{ $t('planForm.targetRps') }}</span>
               <input
                 v-model.number="form.targetRps"
                 type="number"
@@ -201,7 +203,7 @@
             </label>
 
             <label class="field">
-              <span>실행 시간</span>
+              <span>{{ $t('planForm.duration') }}</span>
               <div class="input-with-unit">
                 <input
                   v-model.number="form.durationSec"
@@ -210,13 +212,13 @@
                   max="600"
                   required
                 >
-                <span>초</span>
+                <span>{{ $t('planForm.seconds') }}</span>
               </div>
             </label>
           </div>
 
           <label class="field">
-            <span>동시성</span>
+            <span>{{ $t('planForm.concurrency') }}</span>
             <input
               v-model.number="form.concurrency"
               type="number"
@@ -228,11 +230,11 @@
         </section>
 
         <section class="config-card">
-          <h2>4. 통과 기준</h2>
+          <h2>{{ $t('planForm.sections.threshold') }}</h2>
 
           <div class="field-row">
             <label class="field">
-              <span>최대 오류율</span>
+              <span>{{ $t('planForm.maxErrorRate') }}</span>
               <div class="input-with-unit">
                 <input
                   v-model.number="form.maxErrorRate"
@@ -247,7 +249,7 @@
             </label>
 
             <label class="field">
-              <span>최대 p95</span>
+              <span>{{ $t('planForm.maxP95') }}</span>
               <div class="input-with-unit">
                 <input
                   v-model.number="form.maxP95Ms"
@@ -265,32 +267,32 @@
 
       <div class="summary-column">
         <section class="summary-card">
-          <h2>실행 예상</h2>
+          <h2>{{ $t('planForm.estimate') }}</h2>
 
           <dl>
             <div>
-              <dt>예상 요청 수</dt>
-              <dd>{{ estimatedRequests.toLocaleString() }}건</dd>
+              <dt>{{ $t('planForm.estimatedRequests') }}</dt>
+              <dd>{{ $t('planForm.requestCount', { count: estimatedRequests.toLocaleString() }) }}</dd>
             </div>
             <div>
-              <dt>목표 RPS</dt>
+              <dt>{{ $t('planForm.targetRps') }}</dt>
               <dd>{{ normalizedNumber(form.targetRps) }}</dd>
             </div>
             <div>
-              <dt>실행 시간</dt>
-              <dd>{{ normalizedNumber(form.durationSec) }}초</dd>
+              <dt>{{ $t('planForm.duration') }}</dt>
+              <dd>{{ $t('result.seconds', { value: normalizedNumber(form.durationSec) }) }}</dd>
             </div>
             <div>
-              <dt>동시성</dt>
+              <dt>{{ $t('planForm.concurrency') }}</dt>
               <dd>{{ normalizedNumber(form.concurrency) }}</dd>
             </div>
           </dl>
         </section>
 
         <section class="criteria-card">
-          <h2>통과 조건</h2>
+          <h2>{{ $t('planForm.criteria') }}</h2>
           <p>p95 ≤ {{ normalizedNumber(form.maxP95Ms).toLocaleString() }}ms</p>
-          <p>오류율 ≤ {{ normalizedNumber(form.maxErrorRate) }}%</p>
+          <p>{{ $t('result.errorRate') }} ≤ {{ normalizedNumber(form.maxErrorRate) }}%</p>
         </section>
 
         <div class="form-actions">
@@ -300,10 +302,10 @@
             :disabled="isSubmitting"
             @click="handleRequestTest"
           >
-            요청 테스트
+            {{ $t('planForm.requestTest') }}
           </button>
           <button type="submit" class="secondary-button" :disabled="isSubmitting">
-            {{ isSubmitting ? '저장 중' : '저장' }}
+            {{ isSubmitting ? $t('planForm.saving') : $t('planForm.save') }}
           </button>
           <button
             type="button"
@@ -311,7 +313,7 @@
             :disabled="isSubmitting"
             @click="handleRun"
           >
-            실행
+            {{ $t('planForm.run') }}
           </button>
         </div>
 
@@ -336,9 +338,9 @@ import {
   updateTestPlan
 } from '../api/testPlanApi';
 
-const createDefaultForm = () => ({
-  name: '자산 목록 조회',
-  description: 'getTotalAsset API의 응답 및 부하 상태를 측정합니다.',
+const createDefaultForm = (t) => ({
+  name: t('planForm.defaultName'),
+  description: t('planForm.defaultDescription'),
   method: 'GET',
   timeoutMs: 5000,
   url: 'http://localhost:8085/asset/getTotalAsset',
@@ -364,7 +366,11 @@ export default {
   name: 'TestPlanFormView',
   data() {
     return {
-      form: createDefaultForm(),
+      form: createDefaultForm(this.$t),
+      defaultTextActive: {
+        name: true,
+        description: true
+      },
       isSubmitting: false,
       feedback: {
         tone: 'success',
@@ -383,14 +389,28 @@ export default {
       );
     }
   },
+  watch: {
+    '$i18n.locale'() {
+      if (this.isEdit) return;
+
+      const defaults = createDefaultForm(this.$t);
+      if (this.defaultTextActive.name) this.form.name = defaults.name;
+      if (this.defaultTextActive.description) {
+        this.form.description = defaults.description;
+      }
+    }
+  },
   async mounted() {
     if (!this.isEdit) return;
+
+    this.defaultTextActive.name = false;
+    this.defaultTextActive.description = false;
 
     try {
       const plan = await getTestPlanById(this.$route.params.planId);
       this.form = this.mapPlanToForm(plan);
     } catch {
-      this.setFeedback('danger', '테스트 플랜 정보를 불러오지 못했습니다.');
+      this.setFeedback('danger', this.$t('planForm.feedback.loadFailed'));
     }
   },
   methods: {
@@ -399,7 +419,7 @@ export default {
       return Number.isFinite(number) ? number : 0;
     },
     mapPlanToForm(plan = {}) {
-      const defaults = createDefaultForm();
+      const defaults = createDefaultForm(this.$t);
       const savedAuthentication =
         typeof plan.authentication === 'object' ? plan.authentication : null;
       const savedAuthConfig =
@@ -522,13 +542,13 @@ export default {
         await this.persistPlan();
         this.$router.push('/test-plans');
       } catch {
-        this.setFeedback('danger', '저장 중 문제가 발생했습니다.');
+        this.setFeedback('danger', this.$t('planForm.feedback.saveFailed'));
       } finally {
         this.isSubmitting = false;
       }
     },
     handleRequestTest() {
-      this.setFeedback('success', '요청 테스트에 성공했습니다. HTTP 200 · 124ms');
+      this.setFeedback('success', this.$t('planForm.feedback.requestSucceeded'));
     },
     async handleRun() {
       this.isSubmitting = true;
@@ -539,7 +559,7 @@ export default {
         const result = await runTestPlan(planId);
         this.$router.push(`/runs/${result?.runId || `plan-${planId}`}/live`);
       } catch {
-        this.setFeedback('danger', '테스트를 실행하지 못했습니다.');
+        this.setFeedback('danger', this.$t('planForm.feedback.runFailed'));
       } finally {
         this.isSubmitting = false;
       }

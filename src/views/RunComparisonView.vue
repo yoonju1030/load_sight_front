@@ -1,13 +1,13 @@
 <template>
   <section class="comparison-page">
     <header class="page-header">
-      <h1>실행 결과 비교</h1>
-      <p>두 실행의 성능 지표와 응답 분포를 비교합니다.</p>
+      <h1>{{ $t('compare.title') }}</h1>
+      <p>{{ $t('compare.description') }}</p>
     </header>
 
-    <section class="run-selector-card" aria-label="비교 실행 선택">
+    <section class="run-selector-card" :aria-label="$t('compare.selector')">
       <label>
-        <span>기준 실행</span>
+        <span>{{ $t('compare.baseRun') }}</span>
         <select v-model="baseRunId" :disabled="isLoadingRuns" @change="handleBaseChange">
           <option v-for="run in completedRuns" :key="run.id" :value="run.id">
             {{ runOptionLabel(run) }}
@@ -16,7 +16,7 @@
       </label>
 
       <label>
-        <span>비교 실행</span>
+        <span>{{ $t('compare.compareRun') }}</span>
         <select
           v-model="compareRunId"
           :disabled="isLoadingRuns || !comparisonCandidates.length"
@@ -30,31 +30,31 @@
     </section>
 
     <div v-if="isLoadingRuns" class="loading-panel" role="status">
-      실행 이력을 불러오는 중입니다.
+      {{ $t('compare.loadingRuns') }}
     </div>
 
     <template v-else-if="baseRunId && compareRunId">
       <section class="summary-panel" :class="`summary-panel--${summaryTone}`">
         <span class="summary-icon" aria-hidden="true">{{ summaryIcon }}</span>
         <div>
-          <strong>종합 결과: {{ summaryLabel }}</strong>
+          <strong>{{ $t('compare.summary', { result: summaryLabel }) }}</strong>
           <p>{{ comparison.summary }}</p>
         </div>
       </section>
 
       <article class="content-card metrics-card">
         <div v-if="isLoadingComparison" class="inline-loading" role="status">
-          비교 결과를 계산하는 중입니다.
+          {{ $t('compare.calculating') }}
         </div>
         <div v-else class="table-wrap">
           <table>
             <thead>
               <tr>
-                <th>지표</th>
-                <th>기준</th>
-                <th>비교</th>
-                <th>변화</th>
-                <th>판정</th>
+                <th>{{ $t('compare.columns.metric') }}</th>
+                <th>{{ $t('compare.columns.base') }}</th>
+                <th>{{ $t('compare.columns.compare') }}</th>
+                <th>{{ $t('compare.columns.change') }}</th>
+                <th>{{ $t('compare.columns.verdict') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -78,10 +78,10 @@
 
       <article class="content-card chart-card">
         <div class="chart-heading">
-          <h2>응답시간 비교 차트</h2>
-          <div class="chart-legend" aria-label="차트 범례">
-            <span><i class="legend-dot legend-dot--base"></i>기준 실행</span>
-            <span><i class="legend-dot legend-dot--compare"></i>비교 실행</span>
+          <h2>{{ $t('compare.chartTitle') }}</h2>
+          <div class="chart-legend" :aria-label="$t('compare.chartLegend')">
+            <span><i class="legend-dot legend-dot--base"></i>{{ $t('compare.baseRun') }}</span>
+            <span><i class="legend-dot legend-dot--compare"></i>{{ $t('compare.compareRun') }}</span>
           </div>
         </div>
 
@@ -90,7 +90,7 @@
           viewBox="0 0 640 144"
           preserveAspectRatio="none"
           role="img"
-          aria-label="기준 실행과 비교 실행의 응답시간 변화"
+          :aria-label="$t('compare.chartLabel')"
         >
           <g class="chart-guides">
             <line v-for="y in chartGuideLines" :key="y" x1="0" :y1="y" x2="640" :y2="y" />
@@ -119,8 +119,8 @@
     </template>
 
     <section v-else class="empty-state">
-      <strong>비교할 수 있는 실행 결과가 부족합니다.</strong>
-      <p>동일한 테스트 플랜을 두 번 이상 실행한 후 다시 확인해 주세요.</p>
+      <strong>{{ $t('compare.empty') }}</strong>
+      <p>{{ $t('compare.emptyDescription') }}</p>
     </section>
   </section>
 </template>
@@ -128,16 +128,16 @@
 <script>
 import { getRunComparison, getRunHistory } from '../api/runApi';
 
-const defaultComparison = () => ({
-  verdict: '개선',
-  summary: 'p95는 72.4% 감소했고, 실제 RPS는 18.2% 증가했습니다.',
+const defaultComparison = (t) => ({
+  verdict: t('compare.improved'),
+  summary: t('compare.defaultSummary'),
   metrics: [
     {
-      label: '평균 응답',
+      label: t('compare.metrics.averageResponse'),
       base: '812ms',
       compare: '214ms',
       change: '-73.6%',
-      verdict: '개선',
+      verdict: t('compare.improved'),
       tone: 'success'
     },
     {
@@ -145,7 +145,7 @@ const defaultComparison = () => ({
       base: '1,420ms',
       compare: '392ms',
       change: '-72.4%',
-      verdict: '개선',
+      verdict: t('compare.improved'),
       tone: 'success'
     },
     {
@@ -153,23 +153,23 @@ const defaultComparison = () => ({
       base: '2,810ms',
       compare: '740ms',
       change: '-73.7%',
-      verdict: '개선',
+      verdict: t('compare.improved'),
       tone: 'success'
     },
     {
-      label: '오류율',
+      label: t('compare.metrics.errorRate'),
       base: '2.4%',
       compare: '0.2%',
       change: '-2.2%p',
-      verdict: '개선',
+      verdict: t('compare.improved'),
       tone: 'success'
     },
     {
-      label: '실제 RPS',
+      label: t('compare.metrics.actualRps'),
       base: '82',
       compare: '97',
       change: '+18.2%',
-      verdict: '개선',
+      verdict: t('compare.improved'),
       tone: 'success'
     }
   ],
@@ -186,7 +186,7 @@ export default {
       runs: [],
       baseRunId: '',
       compareRunId: '',
-      comparison: defaultComparison(),
+      comparison: defaultComparison(this.$t),
       isLoadingRuns: true,
       isLoadingComparison: false,
       chartGuideLines: [27, 57, 87, 117]
@@ -210,8 +210,16 @@ export default {
     },
     summaryTone() {
       const verdict = String(this.comparison.verdict || '');
-      if (verdict.includes('개선') || verdict.includes('통과')) return 'success';
-      if (verdict.includes('저하') || verdict.includes('실패')) return 'danger';
+      if (
+        verdict === this.$t('compare.improved') ||
+        verdict.includes('개선') ||
+        verdict.includes('通過')
+      ) return 'success';
+      if (
+        verdict === this.$t('compare.degraded') ||
+        verdict.includes('저하') ||
+        verdict.includes('失敗')
+      ) return 'danger';
       return 'neutral';
     },
     summaryIcon() {
@@ -220,7 +228,7 @@ export default {
       return '−';
     },
     summaryLabel() {
-      const verdict = String(this.comparison.verdict || '변화 없음');
+      const verdict = String(this.comparison.verdict || this.$t('compare.noChange'));
       return verdict.replace(/^성능\s*/, '').replace(/됨$/, '');
     },
     baseChartPoints() {
@@ -254,7 +262,7 @@ export default {
           .map((run) => ({
             ...run,
             id: String(run.id),
-            planName: run.planName || run.name || '이름 없는 테스트',
+            planName: run.planName || run.name || this.$t('runs.unnamed'),
             status: String(run.status || '').toUpperCase(),
             startTime: run.startTime || run.executionTime || run.endTime || '-'
           }))
@@ -293,7 +301,7 @@ export default {
       }
     },
     normalizeComparison(data) {
-      const defaults = defaultComparison();
+      const defaults = defaultComparison(this.$t);
       if (!data) return defaults;
 
       const sourceMetrics = Array.isArray(data.metrics)
@@ -312,11 +320,11 @@ export default {
                 this.resolveMetricVerdict(metric.label, change);
 
               return {
-                label: metric.label || metric.name || '-',
+                label: this.localizeMetricLabel(metric.label || metric.name || '-'),
                 base: String(metric.base ?? metric.baseline ?? '-'),
                 compare: String(metric.compare ?? metric.comparison ?? '-'),
                 change: String(change),
-                verdict,
+                verdict: this.localizeVerdict(verdict),
                 tone: this.verdictTone(verdict)
               };
             })
@@ -325,8 +333,11 @@ export default {
       const trends = data.responseTrend || data.trends || {};
 
       return {
-        verdict: data.verdict || defaults.verdict,
-        summary: data.summary || defaults.summary,
+        verdict: this.localizeVerdict(data.verdict || defaults.verdict),
+        summary:
+          data.summary === 'p95는 72.4% 감소했고, 실제 RPS는 18.2% 증가했습니다.'
+            ? this.$t('compare.defaultSummary')
+            : data.summary || defaults.summary,
         metrics,
         trends: {
           base: this.validSeries(
@@ -342,19 +353,37 @@ export default {
     },
     resolveMetricVerdict(label, change) {
       const value = parseFloat(String(change).replace(/,/g, ''));
-      if (!Number.isFinite(value) || value === 0) return '동일';
+      if (!Number.isFinite(value) || value === 0) return this.$t('compare.same');
 
       const higherIsBetter =
         String(label).includes('RPS') ||
         String(label).includes('성공') ||
         String(label).includes('요청 수');
       const improved = higherIsBetter ? value > 0 : value < 0;
-      return improved ? '개선' : '저하';
+      return improved ? this.$t('compare.improved') : this.$t('compare.degraded');
     },
     verdictTone(verdict) {
-      if (String(verdict).includes('개선')) return 'success';
-      if (String(verdict).includes('저하')) return 'danger';
+      const value = String(verdict);
+      if (value === this.$t('compare.improved') || value.includes('개선')) return 'success';
+      if (value === this.$t('compare.degraded') || value.includes('저하')) return 'danger';
       return 'neutral';
+    },
+    localizeVerdict(verdict) {
+      const value = String(verdict);
+      if (value.includes('개선')) return this.$t('compare.improved');
+      if (value.includes('저하')) return this.$t('compare.degraded');
+      if (value.includes('동일')) return this.$t('compare.same');
+      if (value.includes('변화 없음')) return this.$t('compare.noChange');
+      return value;
+    },
+    localizeMetricLabel(label) {
+      const value = String(label);
+      const labels = {
+        '평균 응답': 'compare.metrics.averageResponse',
+        '오류율': 'compare.metrics.errorRate',
+        '실제 RPS': 'compare.metrics.actualRps'
+      };
+      return labels[value] ? this.$t(labels[value]) : value;
     },
     validSeries(series, fallback) {
       if (!Array.isArray(series) || series.length < 2) return fallback;

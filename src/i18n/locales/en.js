@@ -1,0 +1,313 @@
+export default {
+  language: {
+    selector: 'Select language',
+    ko: 'Korean',
+    en: 'English',
+    ja: 'Japanese'
+  },
+  app: {
+    mainMenu: 'Main menu',
+    user: 'User',
+    logout: 'Log out',
+    nav: {
+      dashboard: 'Dashboard',
+      testPlans: 'Test Plans',
+      runs: 'Run History',
+      compare: 'Compare Results'
+    }
+  },
+  auth: {
+    tagline: 'PERFORMANCE TESTING PLATFORM',
+    title: 'Welcome back',
+    description: 'Sign in to view and manage your load testing activity.',
+    registered: 'Your account has been created. Sign in with your new account.',
+    email: 'Email',
+    emailPlaceholder: "name{'@'}company.com",
+    password: 'Password',
+    passwordPlaceholder: 'Enter your password',
+    showPassword: 'Show password',
+    hidePassword: 'Hide password',
+    submit: 'Sign in',
+    submitting: 'Signing in...',
+    noAccount: "Don't have an account?",
+    signup: 'Create account',
+    demoAccount: 'Demo account',
+    fillDemo: 'Use account',
+    security: 'Your LoadSight sign-in is securely protected.',
+    validation: {
+      emailRequired: 'Enter your email.',
+      emailInvalid: 'Enter a valid email address.',
+      passwordRequired: 'Enter your password.'
+    },
+    error: {
+      invalidCredentials: 'The email or password is incorrect.',
+      unavailable: 'Unable to sign in. Please try again shortly.'
+    }
+  },
+  signup: {
+    backToLogin: 'Go to LoadSight sign in',
+    eyebrow: 'GET STARTED',
+    title: 'Get started with LoadSight',
+    description: 'Create an account to manage your performance tests.',
+    name: 'Name',
+    namePlaceholder: 'Enter your name',
+    email: 'Email',
+    password: 'Password',
+    passwordPlaceholder: 'At least 8 letters and numbers',
+    passwordHint: 'Use at least 8 characters with letters and numbers.',
+    passwordConfirm: 'Confirm password',
+    passwordConfirmPlaceholder: 'Enter your password again',
+    agreement: 'I agree to the Terms of Service and Privacy Policy.',
+    agreementRequired: 'You must agree to continue.',
+    submit: 'Create account',
+    submitting: 'Creating account...',
+    hasAccount: 'Already have an account?',
+    login: 'Sign in',
+    validation: {
+      name: 'Enter at least 2 characters for your name.',
+      emailRequired: 'Enter your email.',
+      emailInvalid: 'Enter a valid email address.',
+      passwordRequired: 'Enter your password.',
+      passwordInvalid: 'Use at least 8 characters with letters and numbers.',
+      passwordConfirmRequired: 'Enter your password again.',
+      passwordMismatch: 'The passwords do not match.'
+    },
+    error: {
+      duplicate: 'An account already exists for this email. Please sign in.',
+      unavailable: 'Unable to create your account. Please try again shortly.'
+    }
+  },
+  dashboard: {
+    title: 'Dashboard',
+    description: 'View your API load testing activity at a glance.',
+    newTest: 'New test',
+    summary: 'Test summary',
+    runningTests: 'Running test',
+    memberLookup: 'Member lookup API',
+    monitoring: 'Monitor',
+    stop: 'Stop',
+    stopped: 'Stopped',
+    progress: 'Test progress',
+    recentRuns: 'Recent runs',
+    columns: {
+      testName: 'Test',
+      status: 'Status',
+      startedAt: 'Started',
+      errorRate: 'Error rate',
+      result: 'View result'
+    },
+    result: 'Result',
+    status: {
+      completed: 'Completed',
+      failed: 'Failed',
+      cancelled: 'Cancelled'
+    },
+    date: {
+      today1420: 'Today 14:20',
+      today1342: 'Today 13:42',
+      yesterday1810: 'Yesterday 18:10'
+    },
+    test: {
+      memberLookup: 'Member lookup',
+      assetList: 'Asset list',
+      loginApi: 'Login API'
+    },
+    metrics: {
+      running: 'Running',
+      last7Days: 'Runs in last 7 days',
+      avgSuccess: 'Average success rate',
+      needsAttention: 'Needs attention'
+    }
+  },
+  testPlans: {
+    title: 'Test Plans',
+    description: 'Manage reusable API test configurations.',
+    newTest: 'New test',
+    search: 'Search by test name or URL',
+    methodFilter: 'Method filter',
+    allMethods: 'All methods',
+    submitSearch: 'Search',
+    columns: {
+      name: 'Name',
+      targetUrl: 'Target URL',
+      load: 'Load',
+      recentRun: 'Recent run',
+      updatedAt: 'Updated',
+      actions: 'Actions'
+    },
+    loadSummary: '{rps} RPS · {duration}s · Concurrency {concurrency}',
+    run: 'Run',
+    edit: 'Edit',
+    empty: 'No results found.',
+    emptyDescription: 'Try changing the search term or method filter.',
+    reset: 'Reset filters',
+    noHistory: 'No history'
+  },
+  runs: {
+    title: 'Run History',
+    description: 'Review results and performance metrics from your API load tests.',
+    startTest: 'Run test',
+    search: 'Search by test name or run ID',
+    statusFilter: 'Status filter',
+    periodFilter: 'Date range',
+    allStatuses: 'All statuses',
+    allPeriods: 'All time',
+    last7Days: 'Last 7 days',
+    last30Days: 'Last 30 days',
+    submitSearch: 'Search',
+    columns: {
+      runId: 'Run ID',
+      testName: 'Test',
+      status: 'Status',
+      startedAt: 'Started',
+      duration: 'Duration',
+      requests: 'Requests',
+      successRate: 'Success rate',
+      actions: 'Actions'
+    },
+    status: {
+      pass: 'Passed',
+      warning: 'Warning',
+      fail: 'Failed',
+      cancelled: 'Cancelled',
+      running: 'Running'
+    },
+    monitoring: 'Monitor',
+    result: 'Result',
+    unnamed: 'Unnamed test',
+    empty: 'No results found.',
+    emptyDescription: 'Try changing the search term, status, or date range.',
+    reset: 'Reset filters'
+  },
+  compare: {
+    title: 'Compare Results',
+    description: 'Compare performance metrics and response distributions from two runs.',
+    selector: 'Select runs to compare',
+    baseRun: 'Baseline run',
+    compareRun: 'Comparison run',
+    loadingRuns: 'Loading run history...',
+    summary: 'Overall result: {result}',
+    calculating: 'Calculating comparison...',
+    columns: {
+      metric: 'Metric',
+      base: 'Baseline',
+      compare: 'Comparison',
+      change: 'Change',
+      verdict: 'Verdict'
+    },
+    chartTitle: 'Response time comparison',
+    chartLegend: 'Chart legend',
+    chartLabel: 'Response time change between baseline and comparison runs',
+    improved: 'Improved',
+    degraded: 'Degraded',
+    same: 'Same',
+    noChange: 'No change',
+    defaultSummary: 'p95 decreased by 72.4% and actual RPS increased by 18.2%.',
+    metrics: {
+      averageResponse: 'Average response',
+      errorRate: 'Error rate',
+      actualRps: 'Actual RPS'
+    },
+    empty: 'There are not enough runs to compare.',
+    emptyDescription: 'Run the same test plan at least twice and try again.'
+  },
+  live: {
+    stopping: 'Stopping',
+    stop: 'Stop',
+    stopped: 'Stopped',
+    runningMessage: 'Test is running',
+    stoppedMessage: 'Test has stopped',
+    progress: 'Test progress',
+    currentRps: 'Current RPS',
+    totalRequests: 'Total requests',
+    successRate: 'Success rate',
+    responseTime: 'Response time',
+    chartLegend: 'Chart legend',
+    average: 'Average',
+    responseChart: 'Average and p95 response time trend',
+    throughput: 'Throughput and status codes',
+    recentErrors: 'Recent errors',
+    noErrors: 'No recent errors.'
+  },
+  result: {
+    title: '{name} · Run result',
+    subtitle: '{time} · Duration {duration}',
+    rerun: 'Run again',
+    compare: 'Compare',
+    generating: 'Generating',
+    report: 'Report',
+    loading: 'Loading run result...',
+    totalRequests: 'Total requests',
+    averageResponse: 'Average response',
+    errorRate: 'Error rate',
+    responseTrend: 'Response time trend',
+    responseChart: 'Average and p95 response time trend',
+    rpsTrend: 'RPS trend',
+    rpsChart: 'Target and actual RPS trend',
+    analysis: 'Analysis',
+    errorAnalysis: 'Error analysis',
+    count: '{count}',
+    noErrors: 'No errors occurred.',
+    reportRequested: 'The report generation request is complete.',
+    reportFailed: 'Unable to generate the report. Please try again shortly.',
+    verdict: {
+      below: 'Below threshold',
+      errorExceeded: 'Error rate exceeded',
+      passed: 'Threshold passed',
+      p95Message: 'The error rate passed, but p95 exceeded the {threshold}ms threshold.',
+      errorMessage: 'Response time passed, but the error rate exceeded its threshold.',
+      passedMessage: 'Response time and error rate meet the configured thresholds.'
+    },
+    seconds: '{value}s',
+    minutesSeconds: '{minutes}m {seconds}s'
+  },
+  planForm: {
+    editTitle: 'Edit Test Plan',
+    newTitle: 'New Test Plan',
+    description: 'Configure the request, load, and performance thresholds.',
+    defaultName: 'Asset list lookup',
+    defaultDescription: 'Measures the response and load performance of the getTotalAsset API.',
+    sections: {
+      basic: '1. Basic information',
+      request: '2. Request settings',
+      load: '3. Load settings',
+      threshold: '4. Pass criteria'
+    },
+    name: 'Test name',
+    details: 'Description',
+    targetUrl: 'Target URL',
+    headers: 'Additional Headers (JSON)',
+    noAuth: 'No authentication',
+    tokenPlaceholder: 'Enter token',
+    bearerHint: 'Sent in Authorization: Bearer format.',
+    usernamePlaceholder: 'Username',
+    passwordPlaceholder: 'Password',
+    basicHint: 'Username and Password are Base64 encoded before sending.',
+    keyName: 'Key name',
+    location: 'Location',
+    keyValue: 'API Key value',
+    keyPlaceholder: 'Enter API Key',
+    noAuthHint: 'This request does not include authentication.',
+    targetRps: 'Target RPS',
+    duration: 'Duration',
+    seconds: 'seconds',
+    concurrency: 'Concurrency',
+    maxErrorRate: 'Maximum error rate',
+    maxP95: 'Maximum p95',
+    estimate: 'Estimated run',
+    estimatedRequests: 'Estimated requests',
+    requestCount: '{count}',
+    criteria: 'Pass criteria',
+    requestTest: 'Test request',
+    saving: 'Saving',
+    save: 'Save',
+    run: 'Run',
+    feedback: {
+      loadFailed: 'Unable to load the test plan.',
+      saveFailed: 'A problem occurred while saving.',
+      requestSucceeded: 'Request test succeeded. HTTP 200 · 124ms',
+      runFailed: 'Unable to run the test.'
+    }
+  },
+  footer: '© 2026 LoadSight. All rights reserved.'
+};

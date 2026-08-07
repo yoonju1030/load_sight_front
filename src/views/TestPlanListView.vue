@@ -2,30 +2,30 @@
   <section class="test-plan-page">
     <header class="page-header">
       <div>
-        <h1>테스트 플랜</h1>
-        <p>반복 실행할 API 테스트 설정을 관리합니다.</p>
+        <h1>{{ $t('testPlans.title') }}</h1>
+        <p>{{ $t('testPlans.description') }}</p>
       </div>
 
       <router-link to="/test-plans/new" class="primary-button">
         <span aria-hidden="true">+</span>
-        새 테스트
+        {{ $t('testPlans.newTest') }}
       </router-link>
     </header>
 
     <form class="filter-panel" @submit.prevent="applyFilters">
       <label class="search-field">
-        <span class="sr-only">테스트명 또는 URL 검색</span>
+        <span class="sr-only">{{ $t('testPlans.search') }}</span>
         <input
           v-model.trim="searchInput"
           type="search"
-          placeholder="테스트명 또는 URL 검색"
+          :placeholder="$t('testPlans.search')"
         >
       </label>
 
       <label class="method-field">
-        <span class="sr-only">Method 필터</span>
+        <span class="sr-only">{{ $t('testPlans.methodFilter') }}</span>
         <select v-model="methodInput">
-          <option value="ALL">Method 전체</option>
+          <option value="ALL">{{ $t('testPlans.allMethods') }}</option>
           <option value="GET">GET</option>
           <option value="POST">POST</option>
           <option value="PUT">PUT</option>
@@ -33,7 +33,7 @@
         </select>
       </label>
 
-      <button type="submit" class="search-button">검색</button>
+      <button type="submit" class="search-button">{{ $t('testPlans.submitSearch') }}</button>
     </form>
 
     <article class="list-panel">
@@ -41,13 +41,13 @@
         <table>
           <thead>
             <tr>
-              <th>이름</th>
+              <th>{{ $t('testPlans.columns.name') }}</th>
               <th>Method</th>
-              <th>대상 URL</th>
-              <th>부하 조건</th>
-              <th>최근 실행</th>
-              <th>수정일</th>
-              <th>작업</th>
+              <th>{{ $t('testPlans.columns.targetUrl') }}</th>
+              <th>{{ $t('testPlans.columns.load') }}</th>
+              <th>{{ $t('testPlans.columns.recentRun') }}</th>
+              <th>{{ $t('testPlans.columns.updatedAt') }}</th>
+              <th>{{ $t('testPlans.columns.actions') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -60,21 +60,25 @@
               </td>
               <td class="url-cell">{{ plan.url }}</td>
               <td class="load-cell">
-                {{ plan.rps }} RPS · {{ plan.duration }}초 · 동시성 {{ plan.concurrency }}
+                {{ $t('testPlans.loadSummary', {
+                  rps: plan.rps,
+                  duration: plan.duration,
+                  concurrency: plan.concurrency
+                }) }}
               </td>
               <td>
                 <span class="status-badge" :class="`status-badge--${plan.statusTone}`">
-                  {{ plan.lastRunStatus }}
+                  {{ statusLabel(plan) }}
                 </span>
               </td>
               <td class="date-cell">{{ plan.updatedAt }}</td>
               <td>
                 <div class="row-actions">
                   <button type="button" class="run-button" @click="runPlan(plan)">
-                    실행
+                    {{ $t('testPlans.run') }}
                   </button>
                   <router-link :to="`/test-plans/${plan.id}/edit`" class="edit-button">
-                    수정
+                    {{ $t('testPlans.edit') }}
                   </router-link>
                 </div>
               </td>
@@ -84,9 +88,9 @@
       </div>
 
       <div v-else class="empty-state">
-        <strong>검색 결과가 없습니다.</strong>
-        <span>검색어나 Method 조건을 변경해 주세요.</span>
-        <button type="button" @click="resetFilters">필터 초기화</button>
+        <strong>{{ $t('testPlans.empty') }}</strong>
+        <span>{{ $t('testPlans.emptyDescription') }}</span>
+        <button type="button" @click="resetFilters">{{ $t('testPlans.reset') }}</button>
       </div>
     </article>
   </section>
@@ -116,7 +120,7 @@ export default {
           plan.loadConfig?.durationSeconds ??
           (plan.loadConfig?.durationMinutes || 0) * 60,
         concurrency: plan.concurrency ?? plan.loadConfig?.vusers ?? 0,
-        lastRunStatus: plan.lastRunStatus || '이력 없음',
+        lastRunStatus: plan.lastRunStatus || '',
         statusTone: plan.statusTone || 'neutral'
       }));
     },
@@ -148,6 +152,15 @@ export default {
       this.searchInput = '';
       this.methodInput = 'ALL';
       this.applyFilters();
+    },
+    statusLabel(plan) {
+      const statusKeys = {
+        success: 'runs.status.pass',
+        danger: 'runs.status.fail',
+        warning: 'runs.status.warning'
+      };
+      const key = statusKeys[plan.statusTone];
+      return key ? this.$t(key) : plan.lastRunStatus || this.$t('testPlans.noHistory');
     },
     runPlan(plan) {
       this.$router.push({

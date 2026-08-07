@@ -2,47 +2,47 @@
   <section class="run-history-page">
     <header class="page-header">
       <div>
-        <h1>실행 이력</h1>
-        <p>실행한 API 부하 테스트의 결과와 성능 지표를 확인합니다.</p>
+        <h1>{{ $t('runs.title') }}</h1>
+        <p>{{ $t('runs.description') }}</p>
       </div>
 
       <router-link to="/test-plans" class="primary-button">
-        테스트 실행
+        {{ $t('runs.startTest') }}
       </router-link>
     </header>
 
     <form class="filter-panel" @submit.prevent="applyFilters">
       <label class="search-field">
-        <span class="sr-only">테스트명 또는 실행 ID 검색</span>
+        <span class="sr-only">{{ $t('runs.search') }}</span>
         <input
           v-model.trim="searchInput"
           type="search"
-          placeholder="테스트명 또는 실행 ID 검색"
+          :placeholder="$t('runs.search')"
         >
       </label>
 
       <label class="select-field">
-        <span class="sr-only">상태 필터</span>
+        <span class="sr-only">{{ $t('runs.statusFilter') }}</span>
         <select v-model="statusInput">
-          <option value="ALL">상태 전체</option>
-          <option value="PASS">성공</option>
-          <option value="WARNING">주의</option>
-          <option value="FAIL">실패</option>
-          <option value="CANCELLED">취소</option>
-          <option value="RUNNING">실행 중</option>
+          <option value="ALL">{{ $t('runs.allStatuses') }}</option>
+          <option value="PASS">{{ $t('runs.status.pass') }}</option>
+          <option value="WARNING">{{ $t('runs.status.warning') }}</option>
+          <option value="FAIL">{{ $t('runs.status.fail') }}</option>
+          <option value="CANCELLED">{{ $t('runs.status.cancelled') }}</option>
+          <option value="RUNNING">{{ $t('runs.status.running') }}</option>
         </select>
       </label>
 
       <label class="select-field">
-        <span class="sr-only">조회 기간</span>
+        <span class="sr-only">{{ $t('runs.periodFilter') }}</span>
         <select v-model="periodInput">
-          <option value="ALL">전체 기간</option>
-          <option value="7">최근 7일</option>
-          <option value="30">최근 30일</option>
+          <option value="ALL">{{ $t('runs.allPeriods') }}</option>
+          <option value="7">{{ $t('runs.last7Days') }}</option>
+          <option value="30">{{ $t('runs.last30Days') }}</option>
         </select>
       </label>
 
-      <button type="submit" class="search-button">검색</button>
+      <button type="submit" class="search-button">{{ $t('runs.submitSearch') }}</button>
     </form>
 
     <article class="history-panel">
@@ -50,15 +50,15 @@
         <table>
           <thead>
             <tr>
-              <th>실행 ID</th>
-              <th>테스트명</th>
-              <th>상태</th>
-              <th>시작 시간</th>
-              <th>실행 시간</th>
-              <th>요청 수</th>
-              <th>성공률</th>
+              <th>{{ $t('runs.columns.runId') }}</th>
+              <th>{{ $t('runs.columns.testName') }}</th>
+              <th>{{ $t('runs.columns.status') }}</th>
+              <th>{{ $t('runs.columns.startedAt') }}</th>
+              <th>{{ $t('runs.columns.duration') }}</th>
+              <th>{{ $t('runs.columns.requests') }}</th>
+              <th>{{ $t('runs.columns.successRate') }}</th>
               <th>p95</th>
-              <th>작업</th>
+              <th>{{ $t('runs.columns.actions') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -67,7 +67,7 @@
               <td class="plan-name">{{ run.planName }}</td>
               <td>
                 <span class="status-badge" :class="`status-badge--${run.statusTone}`">
-                  {{ run.statusLabel }}
+                  {{ $t(run.statusLabelKey) }}
                 </span>
               </td>
               <td class="date-cell">{{ run.startTime }}</td>
@@ -86,7 +86,7 @@
                     : `/runs/${run.id}/result`"
                   class="result-button"
                 >
-                  {{ run.status === 'RUNNING' ? '모니터링' : '결과' }}
+                  {{ run.status === 'RUNNING' ? $t('runs.monitoring') : $t('runs.result') }}
                 </router-link>
               </td>
             </tr>
@@ -95,9 +95,9 @@
       </div>
 
       <div v-else class="empty-state">
-        <strong>검색 결과가 없습니다.</strong>
-        <span>검색어, 상태 또는 조회 기간을 변경해 주세요.</span>
-        <button type="button" @click="resetFilters">필터 초기화</button>
+        <strong>{{ $t('runs.empty') }}</strong>
+        <span>{{ $t('runs.emptyDescription') }}</span>
+        <button type="button" @click="resetFilters">{{ $t('runs.reset') }}</button>
       </div>
     </article>
   </section>
@@ -107,12 +107,12 @@
 import { mapActions, mapGetters } from 'vuex';
 
 const statusMeta = {
-  PASS: { label: '성공', tone: 'success' },
-  WARNING: { label: '주의', tone: 'warning' },
-  FAIL: { label: '실패', tone: 'danger' },
-  CANCELLED: { label: '취소', tone: 'neutral' },
-  STOPPED: { label: '취소', tone: 'neutral' },
-  RUNNING: { label: '실행 중', tone: 'running' }
+  PASS: { labelKey: 'runs.status.pass', tone: 'success' },
+  WARNING: { labelKey: 'runs.status.warning', tone: 'warning' },
+  FAIL: { labelKey: 'runs.status.fail', tone: 'danger' },
+  CANCELLED: { labelKey: 'runs.status.cancelled', tone: 'neutral' },
+  STOPPED: { labelKey: 'runs.status.cancelled', tone: 'neutral' },
+  RUNNING: { labelKey: 'runs.status.running', tone: 'running' }
 };
 
 export default {
@@ -137,9 +137,9 @@ export default {
         return {
           ...run,
           status,
-          statusLabel: meta.label,
+          statusLabelKey: meta.labelKey,
           statusTone: meta.tone,
-          planName: run.planName || run.name || '이름 없는 테스트',
+          planName: run.planName || run.name || this.$t('runs.unnamed'),
           startTime: run.startTime || run.endTime || '-',
           duration: run.duration || '-',
           totalRequests: Number(run.totalRequests ?? run.requestCount ?? 0),

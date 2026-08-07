@@ -17,14 +17,14 @@
           :disabled="!isRunning || isStopping"
           @click="handleStop"
         >
-          {{ isStopping ? '중지 중' : isRunning ? '중지' : '중지됨' }}
+          {{ isStopping ? $t('live.stopping') : isRunning ? $t('live.stop') : $t('live.stopped') }}
         </button>
       </div>
     </header>
 
     <section class="progress-card">
       <div class="progress-labels">
-        <strong>{{ isRunning ? '테스트 실행 중' : '테스트가 중지되었습니다' }}</strong>
+        <strong>{{ isRunning ? $t('live.runningMessage') : $t('live.stoppedMessage') }}</strong>
         <time>{{ formattedElapsed }} / {{ formattedDuration }}</time>
       </div>
       <div
@@ -33,7 +33,7 @@
         :aria-valuenow="progress"
         aria-valuemin="0"
         aria-valuemax="100"
-        aria-label="테스트 진행률"
+        :aria-label="$t('live.progress')"
       >
         <span :style="{ width: `${progress}%` }"></span>
       </div>
@@ -41,15 +41,15 @@
 
     <div class="metric-grid">
       <article class="metric-card">
-        <span>현재 RPS</span>
+        <span>{{ $t('live.currentRps') }}</span>
         <strong>{{ metrics.rps }}</strong>
       </article>
       <article class="metric-card">
-        <span>전체 요청</span>
+        <span>{{ $t('live.totalRequests') }}</span>
         <strong>{{ metrics.totalRequests.toLocaleString() }}</strong>
       </article>
       <article class="metric-card">
-        <span>성공률</span>
+        <span>{{ $t('live.successRate') }}</span>
         <strong class="metric-success">{{ successRate }}%</strong>
       </article>
       <article class="metric-card">
@@ -61,9 +61,9 @@
     <div class="monitor-grid">
       <article class="monitor-card chart-card">
         <div class="card-heading">
-          <h2>응답시간</h2>
-          <div class="chart-legend" aria-label="차트 범례">
-            <span><i class="legend-dot legend-dot--average"></i>평균</span>
+          <h2>{{ $t('live.responseTime') }}</h2>
+          <div class="chart-legend" :aria-label="$t('live.chartLegend')">
+            <span><i class="legend-dot legend-dot--average"></i>{{ $t('live.average') }}</span>
             <span><i class="legend-dot legend-dot--p95"></i>p95</span>
           </div>
         </div>
@@ -73,7 +73,7 @@
           viewBox="0 0 320 118"
           preserveAspectRatio="none"
           role="img"
-          aria-label="평균 및 p95 응답시간 추이"
+          :aria-label="$t('live.responseChart')"
         >
           <g class="chart-grid">
             <line v-for="y in [18, 43, 68, 93]" :key="y" x1="0" :y1="y" x2="320" :y2="y" />
@@ -101,7 +101,7 @@
       </article>
 
       <article class="monitor-card status-card">
-        <h2>처리량 및 상태 코드</h2>
+        <h2>{{ $t('live.throughput') }}</h2>
         <dl>
           <div>
             <dt>Target RPS</dt>
@@ -128,7 +128,7 @@
     </div>
 
     <article class="errors-card">
-      <h2>최근 오류</h2>
+      <h2>{{ $t('live.recentErrors') }}</h2>
       <div v-if="recentErrors.length" class="errors-table-wrap">
         <table>
           <tbody>
@@ -143,7 +143,7 @@
           </tbody>
         </table>
       </div>
-      <p v-else class="no-errors">최근 발생한 오류가 없습니다.</p>
+      <p v-else class="no-errors">{{ $t('live.noErrors') }}</p>
     </article>
   </section>
 </template>
