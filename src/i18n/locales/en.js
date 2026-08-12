@@ -89,6 +89,9 @@ export default {
     stopped: 'Stopped',
     progress: 'Test progress',
     recentRuns: 'Recent runs',
+    recentRunsLoading: 'Loading recent runs.',
+    recentRunsEmpty: 'No test runs yet.',
+    recentRunsEmptyDescription: 'Create a new test to start your first run.',
     columns: {
       testName: 'Test',
       status: 'Status',
@@ -118,6 +121,12 @@ export default {
       avgSuccess: 'Average success rate',
       needsAttention: 'Needs attention'
     }
+  },
+  pagination: {
+    label: 'Pagination',
+    summary: '{start}-{end} of {total}',
+    previous: 'Previous page',
+    next: 'Next page'
   },
   testPlans: {
     title: 'Test Plans',

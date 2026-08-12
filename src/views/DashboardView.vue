@@ -68,7 +68,17 @@
     <article class="panel history-panel">
       <h2>{{ $t('dashboard.recentRuns') }}</h2>
 
-      <div class="table-wrap">
+      <div
+        v-if="isRecentRunsLoading"
+        class="recent-runs-state"
+        role="status"
+        aria-live="polite"
+      >
+        <span class="recent-runs-spinner" aria-hidden="true" />
+        <span>{{ $t('dashboard.recentRunsLoading') }}</span>
+      </div>
+
+      <div v-else-if="recentRuns.length" class="table-wrap">
         <table>
           <thead>
             <tr>
@@ -82,13 +92,13 @@
           </thead>
           <tbody>
             <tr v-for="run in recentRuns" :key="run.id">
-              <td class="test-name">{{ $t(run.nameKey) }}</td>
+              <td class="test-name">{{ run.name }}</td>
               <td>
                 <span class="status-chip" :class="`status-chip--${run.tone}`">
                   {{ $t(run.statusKey) }}
                 </span>
               </td>
-              <td>{{ $t(run.startedAtKey) }}</td>
+              <td>{{ run.startedAt }}</td>
               <td>{{ run.p95 }}</td>
               <td>{{ run.errorRate }}</td>
               <td>
@@ -100,45 +110,44 @@
           </tbody>
         </table>
       </div>
+
+      <div v-else class="recent-runs-state">
+        <span class="recent-runs-empty-icon" aria-hidden="true">+</span>
+        <strong>{{ $t('dashboard.recentRunsEmpty') }}</strong>
+        <span>{{ $t('dashboard.recentRunsEmptyDescription') }}</span>
+        <router-link to="/test-plans/new" class="primary-button recent-runs-action">
+          {{ $t('dashboard.newTest') }}
+        </router-link>
+      </div>
     </article>
   </section>
 </template>
 
 <script>
+import { getRecentRuns } from '../api/runApi';
+
+const statusMeta = {
+  COMPLETED: { statusKey: 'dashboard.status.completed', tone: 'success' },
+  FINISHED: { statusKey: 'dashboard.status.completed', tone: 'success' },
+  PASS: { statusKey: 'dashboard.status.completed', tone: 'success' },
+  FAILED: { statusKey: 'dashboard.status.failed', tone: 'danger' },
+  FAIL: { statusKey: 'dashboard.status.failed', tone: 'danger' },
+  CANCELLED: { statusKey: 'dashboard.status.cancelled', tone: 'neutral' },
+  CANCELED: { statusKey: 'dashboard.status.cancelled', tone: 'neutral' },
+  STOPPED: { statusKey: 'dashboard.status.cancelled', tone: 'neutral' },
+  STOPPING: { statusKey: 'dashboard.status.cancelled', tone: 'neutral' },
+  CREATED: { statusKey: 'runs.status.running', tone: 'success' },
+  STARTING: { statusKey: 'runs.status.running', tone: 'success' },
+  RUNNING: { statusKey: 'runs.status.running', tone: 'success' }
+};
+
 export default {
   name: 'DashboardView',
   data() {
     return {
       isRunning: true,
-      recentRuns: [
-        {
-          id: 'run-103',
-          nameKey: 'dashboard.test.memberLookup',
-          statusKey: 'dashboard.status.completed',
-          tone: 'success',
-          startedAtKey: 'dashboard.date.today1420',
-          p95: '280ms',
-          errorRate: '0.1%'
-        },
-        {
-          id: 'run-102',
-          nameKey: 'dashboard.test.assetList',
-          statusKey: 'dashboard.status.failed',
-          tone: 'danger',
-          startedAtKey: 'dashboard.date.today1342',
-          p95: '4.2s',
-          errorRate: '12.0%'
-        },
-        {
-          id: 'run-101',
-          nameKey: 'dashboard.test.loginApi',
-          statusKey: 'dashboard.status.cancelled',
-          tone: 'neutral',
-          startedAtKey: 'dashboard.date.yesterday1810',
-          p95: '490ms',
-          errorRate: '0.6%'
-        }
-      ]
+      isRecentRunsLoading: true,
+      recentRuns: []
     };
   },
   computed: {
@@ -151,7 +160,61 @@ export default {
       ];
     }
   },
+  mounted() {
+    this.fetchRecentRuns();
+  },
   methods: {
+    async fetchRecentRuns() {
+      try {
+        const runs = await getRecentRuns(3);
+        this.recentRuns = (Array.isArray(runs) ? runs : []).map(this.normalizeRecentRun);
+      } catch (error) {
+        console.error('최근 실행 목록을 불러오지 못했습니다.', error);
+        this.recentRuns = [];
+      } finally {
+        this.isRecentRunsLoading = false;
+      }
+    },
+    normalizeRecentRun(run) {
+      const status = String(run.status || 'CANCELLED').toUpperCase();
+      const meta = statusMeta[status] || statusMeta.CANCELLED;
+
+      return {
+        id: run.id,
+        name: run.planName || run.name || '-',
+        statusKey: meta.statusKey,
+        tone: meta.tone,
+        startedAt: this.formatStartedAt(run.startTime || run.startedAt),
+        p95: this.formatLatency(run.p95Latency ?? run.p95),
+        errorRate: this.formatErrorRate(run.errorRate)
+      };
+    },
+    formatStartedAt(value) {
+      if (!value) return '-';
+
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return String(value);
+
+      return new Intl.DateTimeFormat(this.$i18n.locale, {
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      }).format(date);
+    },
+    formatLatency(value) {
+      if (value === null || value === undefined) return '-';
+
+      const latency = Number(value);
+      if (!Number.isFinite(latency)) return '-';
+      return latency >= 1000 ? `${(latency / 1000).toFixed(1)}s` : `${latency}ms`;
+    },
+    formatErrorRate(value) {
+      if (value === null || value === undefined) return '-';
+
+      const rate = Number(value);
+      return Number.isFinite(rate) ? `${rate.toFixed(1)}%` : '-';
+    },
     stopTest() {
       this.isRunning = false;
     }
@@ -409,6 +472,61 @@ export default {
   overflow-x: auto;
 }
 
+.recent-runs-state {
+  display: flex;
+  min-height: 118px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  color: #8591a3;
+  font-size: 9px;
+  text-align: center;
+  background: #fafcff;
+  border: 1px dashed #dce3ec;
+  border-radius: 8px;
+}
+
+.recent-runs-state strong {
+  color: #334155;
+  font-size: 11px;
+}
+
+.recent-runs-empty-icon {
+  display: inline-flex;
+  width: 25px;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+  color: #2f6bea;
+  font-size: 17px;
+  font-weight: 500;
+  background: #eaf1ff;
+  border-radius: 50%;
+}
+
+.recent-runs-action {
+  width: auto;
+  min-width: 92px;
+  margin-top: 3px;
+  padding: 0 12px;
+}
+
+.recent-runs-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #dbe4f0;
+  border-top-color: #2f6bea;
+  border-radius: 50%;
+  animation: recent-runs-spin 700ms linear infinite;
+}
+
+@keyframes recent-runs-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 table {
   width: 100%;
   border-spacing: 0;
@@ -636,6 +754,27 @@ td:last-child {
 
   .history-panel h2 {
     margin-bottom: 10px;
+  }
+
+  .recent-runs-state {
+    min-height: 160px;
+    gap: 7px;
+    font-size: 11px;
+  }
+
+  .recent-runs-state strong {
+    font-size: 14px;
+  }
+
+  .recent-runs-empty-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 21px;
+  }
+
+  .recent-runs-action {
+    height: 28px;
+    font-size: 10px;
   }
 
   th {

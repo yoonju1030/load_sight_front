@@ -25,7 +25,7 @@ const axiosCall = async (method, url, params = {}, errorFunc = false) => {
     try {
         switch (method) {
             case "GET":
-                return await axios.get(url, option);
+                return await axios.get(url, { ...option, params });
 
             case "POST":
                 return await axios.post(url, params, option);

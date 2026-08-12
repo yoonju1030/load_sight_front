@@ -89,6 +89,9 @@ export default {
     stopped: '停止済み',
     progress: 'テスト進捗',
     recentRuns: '最近の実行',
+    recentRunsLoading: '最近の実行を読み込んでいます。',
+    recentRunsEmpty: '実行したテストはまだありません。',
+    recentRunsEmptyDescription: '新しいテストを作成して、最初の実行を開始しましょう。',
     columns: {
       testName: 'テスト名',
       status: 'ステータス',
@@ -118,6 +121,12 @@ export default {
       avgSuccess: '平均成功率',
       needsAttention: '要確認'
     }
+  },
+  pagination: {
+    label: 'ページ移動',
+    summary: '全{total}件中 {start}-{end}',
+    previous: '前のページ',
+    next: '次のページ'
   },
   testPlans: {
     title: 'テストプラン',

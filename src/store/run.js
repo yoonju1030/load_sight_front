@@ -3,6 +3,12 @@ import { getDashboardSummary, getRunHistory, getRunDetails, getRunComparison } f
 const state = {
   dashboardSummary: null,
   runHistory: [],
+  pagination: {
+    page: 0,
+    size: 10,
+    totalElements: 0,
+    totalPages: 0
+  },
   currentRun: null,
   comparison: null,
   loading: false
@@ -14,6 +20,9 @@ const mutations = {
   },
   SET_RUN_HISTORY(state, history) {
     state.runHistory = history;
+  },
+  SET_PAGINATION(state, pagination) {
+    state.pagination = { ...state.pagination, ...pagination };
   },
   SET_CURRENT_RUN(state, run) {
     state.currentRun = run;
@@ -35,11 +44,19 @@ const actions = {
       console.error(e);
     }
   },
-  async fetchRunHistory({ commit }) {
+  async fetchRunHistory({ commit }, params = {}) {
     commit('SET_LOADING', true);
     try {
-      const data = await getRunHistory();
-      commit('SET_RUN_HISTORY', data);
+      const data = await getRunHistory(params);
+      const content = Array.isArray(data) ? data : data?.content || [];
+      commit('SET_RUN_HISTORY', content);
+      commit('SET_PAGINATION', {
+        page: data?.page ?? params.page ?? 0,
+        size: data?.size ?? params.size ?? 10,
+        totalElements: data?.totalElements ?? content.length,
+        totalPages: data?.totalPages ?? (content.length ? 1 : 0)
+      });
+      return data;
     } finally {
       commit('SET_LOADING', false);
     }
@@ -67,6 +84,7 @@ const actions = {
 const getters = {
   dashboardSummary: (state) => state.dashboardSummary,
   runHistory: (state) => state.runHistory,
+  pagination: (state) => state.pagination,
   currentRun: (state) => state.currentRun,
   comparison: (state) => state.comparison,
   isLoading: (state) => state.loading

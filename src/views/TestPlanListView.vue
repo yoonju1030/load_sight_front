@@ -37,7 +37,7 @@
     </form>
 
     <article class="list-panel">
-      <div v-if="filteredPlans.length" class="table-wrap">
+      <div v-if="normalizedPlans.length" class="table-wrap">
         <table>
           <thead>
             <tr>
@@ -51,7 +51,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="plan in filteredPlans" :key="plan.id">
+            <tr v-for="plan in normalizedPlans" :key="plan.id">
               <td class="plan-name">{{ plan.name }}</td>
               <td>
                 <span class="method-badge" :class="`method-badge--${plan.method.toLowerCase()}`">
@@ -92,15 +92,27 @@
         <span>{{ $t('testPlans.emptyDescription') }}</span>
         <button type="button" @click="resetFilters">{{ $t('testPlans.reset') }}</button>
       </div>
+
+      <PaginationControls
+        :page="pagination.page"
+        :size="pagination.size"
+        :total-elements="pagination.totalElements"
+        :total-pages="pagination.totalPages"
+        @change="changePage"
+      />
     </article>
   </section>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import PaginationControls from '../components/common/PaginationControls.vue';
 
 export default {
   name: 'TestPlanListView',
+  components: {
+    PaginationControls
+  },
   data() {
     return {
       searchInput: '',
@@ -110,7 +122,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('testPlan', ['plans']),
+    ...mapGetters('testPlan', ['plans', 'pagination']),
     normalizedPlans() {
       return (this.plans || []).map((plan) => ({
         ...plan,
@@ -123,35 +135,36 @@ export default {
         lastRunStatus: plan.lastRunStatus || '',
         statusTone: plan.statusTone || 'neutral'
       }));
-    },
-    filteredPlans() {
-      const keyword = this.appliedSearch.toLowerCase();
-
-      return this.normalizedPlans.filter((plan) => {
-        const matchesMethod =
-          this.appliedMethod === 'ALL' || plan.method === this.appliedMethod;
-        const matchesKeyword =
-          !keyword ||
-          plan.name.toLowerCase().includes(keyword) ||
-          plan.url.toLowerCase().includes(keyword);
-
-        return matchesMethod && matchesKeyword;
-      });
     }
   },
   mounted() {
-    this.fetchPlans();
+    this.loadPage(0);
   },
   methods: {
     ...mapActions('testPlan', ['fetchPlans']),
     applyFilters() {
       this.appliedSearch = this.searchInput;
       this.appliedMethod = this.methodInput;
+      this.loadPage(0);
     },
     resetFilters() {
       this.searchInput = '';
       this.methodInput = 'ALL';
       this.applyFilters();
+    },
+    loadPage(page) {
+      return this.fetchPlans({
+        page,
+        size: this.pagination.size || 10,
+        search: this.appliedSearch || undefined,
+        method: this.appliedMethod === 'ALL' ? undefined : this.appliedMethod
+      });
+    },
+    changePage(page) {
+      if (page < 0 || page >= this.pagination.totalPages || page === this.pagination.page) {
+        return;
+      }
+      this.loadPage(page);
     },
     statusLabel(plan) {
       const statusKeys = {

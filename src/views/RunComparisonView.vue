@@ -257,8 +257,8 @@ export default {
     async loadRuns() {
       this.isLoadingRuns = true;
       try {
-        const history = await getRunHistory();
-        this.runs = (Array.isArray(history) ? history : history?.items || [])
+        const history = await getRunHistory({ page: 0, size: 100 });
+        this.runs = (Array.isArray(history) ? history : history?.content || history?.items || [])
           .map((run) => ({
             ...run,
             id: String(run.id),

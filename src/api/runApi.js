@@ -1,6 +1,15 @@
 import common from '../utils/common';
 
 /**
+ * 대시보드 최근 실행 목록 조회
+ */
+export async function getRecentRuns(limit = 3) {
+  const res = await common.axiosCall('GET', '/api/v1/runs', { page: 0, size: limit });
+  const payload = res?.data ?? res;
+  return Array.isArray(payload) ? payload : payload?.content || [];
+}
+
+/**
  * 대시보드 요약 KPI 및 실행 중인 테스트 정보 조회
  */
 export async function getDashboardSummary() {
@@ -42,7 +51,21 @@ export async function getRunHistory(params = {}) {
     return res?.data ?? res;
   } catch (err) {
     console.warn('getRunHistory mock fallback:', err);
-    return getMockRunHistory();
+    const runs = getMockRunHistory().filter((run) => {
+      const search = String(params.search || '').toLowerCase();
+      const matchesSearch =
+        !search ||
+        String(run.id).toLowerCase().includes(search) ||
+        run.planName.toLowerCase().includes(search);
+      const matchesStatus = !params.status || run.status === params.status;
+      const cutoff = params.days
+        ? new Date(Date.now() - Number(params.days) * 24 * 60 * 60 * 1000)
+        : null;
+      const runDate = new Date(String(run.startTime).replace(' ', 'T'));
+      const matchesPeriod = !cutoff || Number.isNaN(runDate.getTime()) || runDate >= cutoff;
+      return matchesSearch && matchesStatus && matchesPeriod;
+    });
+    return createMockPage(runs, params);
   }
 }
 
@@ -162,6 +185,24 @@ function getMockRunHistory() {
       p95Latency: 410
     }
   ];
+}
+
+function createMockPage(items, params = {}) {
+  const page = Math.max(Number(params.page) || 0, 0);
+  const size = Math.max(Number(params.size) || 10, 1);
+  const start = page * size;
+  const totalElements = items.length;
+  const totalPages = totalElements ? Math.ceil(totalElements / size) : 0;
+
+  return {
+    content: items.slice(start, start + size),
+    page,
+    size,
+    totalElements,
+    totalPages,
+    first: page === 0,
+    last: totalPages === 0 || page >= totalPages - 1
+  };
 }
 
 function getMockRunDetail(runId) {

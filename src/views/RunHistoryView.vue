@@ -46,7 +46,7 @@
     </form>
 
     <article class="history-panel">
-      <div v-if="filteredRuns.length" class="table-wrap">
+      <div v-if="normalizedRuns.length" class="table-wrap">
         <table>
           <thead>
             <tr>
@@ -62,7 +62,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="run in filteredRuns" :key="run.id">
+            <tr v-for="run in normalizedRuns" :key="run.id">
               <td class="run-id">{{ run.id }}</td>
               <td class="plan-name">{{ run.planName }}</td>
               <td>
@@ -99,24 +99,42 @@
         <span>{{ $t('runs.emptyDescription') }}</span>
         <button type="button" @click="resetFilters">{{ $t('runs.reset') }}</button>
       </div>
+
+      <PaginationControls
+        :page="pagination.page"
+        :size="pagination.size"
+        :total-elements="pagination.totalElements"
+        :total-pages="pagination.totalPages"
+        @change="changePage"
+      />
     </article>
   </section>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import PaginationControls from '../components/common/PaginationControls.vue';
 
 const statusMeta = {
   PASS: { labelKey: 'runs.status.pass', tone: 'success' },
+  COMPLETED: { labelKey: 'runs.status.pass', tone: 'success' },
   WARNING: { labelKey: 'runs.status.warning', tone: 'warning' },
   FAIL: { labelKey: 'runs.status.fail', tone: 'danger' },
+  FAILED: { labelKey: 'runs.status.fail', tone: 'danger' },
   CANCELLED: { labelKey: 'runs.status.cancelled', tone: 'neutral' },
+  CANCELED: { labelKey: 'runs.status.cancelled', tone: 'neutral' },
   STOPPED: { labelKey: 'runs.status.cancelled', tone: 'neutral' },
-  RUNNING: { labelKey: 'runs.status.running', tone: 'running' }
+  CREATED: { labelKey: 'runs.status.running', tone: 'running' },
+  STARTING: { labelKey: 'runs.status.running', tone: 'running' },
+  RUNNING: { labelKey: 'runs.status.running', tone: 'running' },
+  STOPPING: { labelKey: 'runs.status.running', tone: 'running' }
 };
 
 export default {
   name: 'RunHistoryView',
+  components: {
+    PaginationControls
+  },
   data() {
     return {
       searchInput: '',
@@ -128,7 +146,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('run', ['runHistory']),
+    ...mapGetters('run', ['runHistory', 'pagination']),
     normalizedRuns() {
       return (this.runHistory || []).map((run) => {
         const status = String(run.status || 'CANCELLED').toUpperCase();
@@ -147,27 +165,10 @@ export default {
           p95Latency: Number(run.p95Latency ?? run.p95 ?? 0)
         };
       });
-    },
-    filteredRuns() {
-      const keyword = this.appliedSearch.toLowerCase();
-
-      return this.normalizedRuns.filter((run) => {
-        const matchesKeyword =
-          !keyword ||
-          String(run.id).toLowerCase().includes(keyword) ||
-          run.planName.toLowerCase().includes(keyword);
-        const matchesStatus =
-          this.appliedStatus === 'ALL' ||
-          run.status === this.appliedStatus ||
-          (this.appliedStatus === 'CANCELLED' && run.status === 'STOPPED');
-        const matchesPeriod = this.isWithinPeriod(run.startTime);
-
-        return matchesKeyword && matchesStatus && matchesPeriod;
-      });
     }
   },
   mounted() {
-    this.fetchRunHistory();
+    this.loadPage(0);
   },
   methods: {
     ...mapActions('run', ['fetchRunHistory']),
@@ -175,6 +176,7 @@ export default {
       this.appliedSearch = this.searchInput;
       this.appliedStatus = this.statusInput;
       this.appliedPeriod = this.periodInput;
+      this.loadPage(0);
     },
     resetFilters() {
       this.searchInput = '';
@@ -182,17 +184,20 @@ export default {
       this.periodInput = 'ALL';
       this.applyFilters();
     },
-    isWithinPeriod(value) {
-      if (this.appliedPeriod === 'ALL' || !value || value === '-') return true;
-
-      const runDate = new Date(String(value).replace(' ', 'T'));
-      if (Number.isNaN(runDate.getTime())) return true;
-
-      const cutoff = new Date();
-      cutoff.setHours(0, 0, 0, 0);
-      cutoff.setDate(cutoff.getDate() - Number(this.appliedPeriod));
-
-      return runDate >= cutoff;
+    loadPage(page) {
+      return this.fetchRunHistory({
+        page,
+        size: this.pagination.size || 10,
+        search: this.appliedSearch || undefined,
+        status: this.appliedStatus === 'ALL' ? undefined : this.appliedStatus,
+        days: this.appliedPeriod === 'ALL' ? undefined : Number(this.appliedPeriod)
+      });
+    },
+    changePage(page) {
+      if (page < 0 || page >= this.pagination.totalPages || page === this.pagination.page) {
+        return;
+      }
+      this.loadPage(page);
     },
     formatLatency(value) {
       if (value >= 1000) {

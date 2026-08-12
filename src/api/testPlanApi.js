@@ -9,7 +9,16 @@ export async function getTestPlans(params = {}) {
     return res?.data ?? res;
   } catch (err) {
     console.warn('getTestPlans mock fallback:', err);
-    return getMockTestPlans();
+    const plans = getMockTestPlans().filter((plan) => {
+      const search = String(params.search || '').toLowerCase();
+      const matchesSearch =
+        !search ||
+        plan.name.toLowerCase().includes(search) ||
+        plan.url.toLowerCase().includes(search);
+      const matchesMethod = !params.method || plan.method === params.method;
+      return matchesSearch && matchesMethod;
+    });
+    return createMockPage(plans, params);
   }
 }
 
@@ -126,4 +135,22 @@ function getMockTestPlans() {
       loadConfig: { vusers: 30, targetRps: 80, durationMinutes: 1.5 }
     }
   ];
+}
+
+function createMockPage(items, params = {}) {
+  const page = Math.max(Number(params.page) || 0, 0);
+  const size = Math.max(Number(params.size) || 10, 1);
+  const start = page * size;
+  const totalElements = items.length;
+  const totalPages = totalElements ? Math.ceil(totalElements / size) : 0;
+
+  return {
+    content: items.slice(start, start + size),
+    page,
+    size,
+    totalElements,
+    totalPages,
+    first: page === 0,
+    last: totalPages === 0 || page >= totalPages - 1
+  };
 }

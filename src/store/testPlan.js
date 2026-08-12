@@ -2,6 +2,12 @@ import { getTestPlans, getTestPlanById, createTestPlan, updateTestPlan } from '.
 
 const state = {
   plans: [],
+  pagination: {
+    page: 0,
+    size: 10,
+    totalElements: 0,
+    totalPages: 0
+  },
   currentPlan: null,
   formPlan: {
     name: '',
@@ -26,6 +32,9 @@ const mutations = {
   SET_PLANS(state, plans) {
     state.plans = plans;
   },
+  SET_PAGINATION(state, pagination) {
+    state.pagination = { ...state.pagination, ...pagination };
+  },
   SET_CURRENT_PLAN(state, plan) {
     state.currentPlan = plan;
   },
@@ -38,11 +47,19 @@ const mutations = {
 };
 
 const actions = {
-  async fetchPlans({ commit }) {
+  async fetchPlans({ commit }, params = {}) {
     commit('SET_LOADING', true);
     try {
-      const data = await getTestPlans();
-      commit('SET_PLANS', data);
+      const data = await getTestPlans(params);
+      const content = Array.isArray(data) ? data : data?.content || [];
+      commit('SET_PLANS', content);
+      commit('SET_PAGINATION', {
+        page: data?.page ?? params.page ?? 0,
+        size: data?.size ?? params.size ?? 10,
+        totalElements: data?.totalElements ?? content.length,
+        totalPages: data?.totalPages ?? (content.length ? 1 : 0)
+      });
+      return data;
     } finally {
       commit('SET_LOADING', false);
     }
@@ -73,6 +90,7 @@ const actions = {
 
 const getters = {
   plans: (state) => state.plans,
+  pagination: (state) => state.pagination,
   currentPlan: (state) => state.currentPlan,
   formPlan: (state) => state.formPlan,
   isLoading: (state) => state.loading

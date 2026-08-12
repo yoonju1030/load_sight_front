@@ -89,6 +89,9 @@ export default {
     stopped: '중지됨',
     progress: '테스트 진행률',
     recentRuns: '최근 실행',
+    recentRunsLoading: '최근 실행을 불러오는 중입니다.',
+    recentRunsEmpty: '아직 실행한 테스트가 없습니다.',
+    recentRunsEmptyDescription: '새 테스트를 만들어 첫 번째 실행을 시작해 보세요.',
     columns: {
       testName: '테스트명',
       status: '상태',
@@ -118,6 +121,12 @@ export default {
       avgSuccess: '평균 성공률',
       needsAttention: '주의 필요'
     }
+  },
+  pagination: {
+    label: '페이지 이동',
+    summary: '전체 {total}개 중 {start}-{end}',
+    previous: '이전 페이지',
+    next: '다음 페이지'
   },
   testPlans: {
     title: '테스트 플랜',
